@@ -1,0 +1,4 @@
+dist/*.jar
+dist/javadoc
+build/*
+nbproject/private/*
