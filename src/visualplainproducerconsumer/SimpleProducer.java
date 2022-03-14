@@ -36,49 +36,48 @@ public class SimpleProducer extends PlainAgent {
     @Override
     public void setup() {
         super.setup();
-        tabs="\t\t\t";
-        this.maxClock=10;
-        latencyms=500;
+        tabs = "\t\t\t";
+        this.maxClock = 10;
+        latencyms = 10;
         state = Status.PREPARING;
+        exit = false;
     }
 
     @Override
     public void Execute() {
-        _exit = false;
-        while (!_exit) {
-            switch (state) {
-                case PREPARING:
-                    if (countClock <= maxClock) {
-                        mark();
-                        saveTime();
-                        countClock++;
-                    } else {
-                        state = Status.SENDING;
-                    }
-                    break;
-                case SENDING:
-                    message = (Math.random() < 0.95 && clock < maxTime / 2
-                            ? "" + nmessages : "STOP");
-                    _outbox = new ACLMessage();
-                    _outbox.setSender(this.getAID());
-                    _outbox.addReceiver(new AID(_consumerName, AID.ISLOCALNAME));
-                    _outbox.setContent(message);
-                    this.send(_outbox);
+        switch (state) {
+            case PREPARING:
+                if (countClock <= maxClock) {
                     mark();
-                    nmessages++;
-                    countClock = 1;
-                    if (message.equals("STOP")) {
-                        state = Status.EXIT;
-                    } else {
-                        state = Status.PREPARING;
-                        saveTime();
+                    saveTime();
+                    countClock++;
+                } else {
+                    state = Status.SENDING;
+                }
+                break;
+            case SENDING:
+                message =  "" + nmessages;
+//                message = (Math.random() < 0.95 && clock < maxTime / 2
+//                        ? "" + nmessages : "STOP");
+                _outbox = new ACLMessage();
+                _outbox.setSender(this.getAID());
+                _outbox.addReceiver(new AID(_consumerName, AID.ISLOCALNAME));
+                _outbox.setContent(message);
+                this.LARVAsend(_outbox);
+                mark();
+                nmessages++;
+                countClock = 1;
+                if (message.equals("STOP")) {
+                    state = Status.EXIT;
+                } else {
+                    state = Status.PREPARING;
+                    saveTime();
 
-                    }
-                    break;
-                case EXIT:
-                    _exit = true;
-                    break;
-            }
+                }
+                break;
+            case EXIT:
+                this.doExit();
+                break;
         }
     }
 

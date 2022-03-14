@@ -24,7 +24,7 @@ public class PlainProducerConsumer {
     public static void main(String[] args) {
 
         _app = new LARVABoot();
-        _app.Boot();
+//       _app.Boot();
 
         VisualSimpleProducerConsumer();
 

@@ -82,15 +82,28 @@ public class PlainAgent extends LARVAFirstAgent{
             Info(tabs + doProgress(countClock,this.maxClock)+"["+nmessages+"]");
         } else if (state == Status.PREPARING) {
             Info(tabs + doProgress(countClock,this.maxClock)+(countClock==maxClock?"["+nmessages+"]":""));
-            this.doWait(latencyms);
+            this.doWait((int)(latencyms*(1+Math.random()-0.5)));
         } else if (state == Status.PROCESSING) {
             Info(tabs + doProgress(countClock,this.maxClock));
-            this.doWait(latencyms);
+            this.doWait((int)(latencyms*(1+Math.random()-0.5)));
         } else if (state == Status.EXIT) {
             Info(tabs + doProgress(countClock,this.maxClock)+" X");
         } else if (state == Status.WAITING) {
             Info(tabs + doProgress(countClock,this.maxClock)+" W");
         }
+//        if (state == Status.RECEIVING) {
+//            Info(tabs + doProgress(countClock,this.maxClock)+"["+nmessages+"]");
+//        } else if (state == Status.PREPARING) {
+//            Info(tabs +"("+this.getNCycles()+")"+ doProgress(countClock,this.maxClock)+(countClock==maxClock?"["+nmessages+"]":""));
+//            this.doWait(latencyms);
+//        } else if (state == Status.PROCESSING) {
+//            Info(tabs +"("+this.getNCycles()+")"+ doProgress(countClock,this.maxClock));
+//            this.doWait(latencyms);
+//        } else if (state == Status.EXIT) {
+//            Info(tabs +"("+this.getNCycles()+")"+ doProgress(countClock,this.maxClock)+" X");
+//        } else if (state == Status.WAITING) {
+//            Info(tabs +"("+this.getNCycles()+")"+ doProgress(countClock,this.maxClock)+" W");
+//        }
         clock++;
     }
   

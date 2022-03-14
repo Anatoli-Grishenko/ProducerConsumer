@@ -33,55 +33,51 @@ public class SimpleConsumer extends PlainAgent {
     @Override
     public void setup() {
         super.setup();
-        this.maxClock=6;
-        latencyms=1000;
+        this.maxClock = 6;
+        latencyms = 10;
         state = Status.WAITING;
+        exit = false;
     }
 
     @Override
     public void Execute() {
-        while (!_exit) {
-            switch (state) {
-                case WAITING:
-                    mark();
-                    state = Status.RECEIVING;
-                    break;
-                case RECEIVING:
-                    _inbox = this.blockingReceive();
-                    if (_inbox != null) {
-                        readTime();
-                        countClock = 1;
-                        if (_inbox.getContent().equals("STOP")) {
-                            state = Status.EXIT;
-                            mark();
-                        } else {
-                            nmessages = Integer.parseInt(_inbox.getContent());
-                            mark();
-                            state = Status.PROCESSING;
-                        }
-                        saveTime();
-                    } else {
-                        state = Status.WAITING;
-                    }
-                    break;
-                case PROCESSING:
-                    if (this.countClock <= maxClock) {
+        switch (state) {
+            case WAITING:
+                mark();
+                state = Status.RECEIVING;
+                break;
+            case RECEIVING:
+                _inbox = this.LARVAblockingReceive();
+                if (_inbox != null) {
+                    readTime();
+                    countClock = 1;
+                    if (_inbox.getContent().equals("STOP")) {
+                        state = Status.EXIT;
                         mark();
-                        saveTime();
-                        countClock++;
                     } else {
-                        state = Status.WAITING;
+                        nmessages = Integer.parseInt(_inbox.getContent());
+                        mark();
+                        state = Status.PROCESSING;
                     }
+                    saveTime();
+                } else {
+                    state = Status.WAITING;
+                }
+                break;
+            case PROCESSING:
+                if (this.countClock <= maxClock) {
+                    mark();
+                    saveTime();
+                    countClock++;
+                } else {
+                    state = Status.WAITING;
+                }
 
-                    break;
-                case EXIT:
-                    _exit = true;
-                    break;
-            }
-
+                break;
+            case EXIT:
+                doExit();
+                break;
         }
     }
-
-
 
 }
