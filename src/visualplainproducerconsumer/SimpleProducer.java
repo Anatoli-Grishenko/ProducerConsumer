@@ -57,8 +57,8 @@ public class SimpleProducer extends PlainAgent {
                 break;
             case SENDING:
                 message =  "" + nmessages;
-//                message = (Math.random() < 0.95 && clock < maxTime / 2
-//                        ? "" + nmessages : "STOP");
+                message = (Math.random() < 0.95 && clock < maxTime / 2
+                        ? "" + nmessages : "STOP");
                 _outbox = new ACLMessage();
                 _outbox.setSender(this.getAID());
                 _outbox.addReceiver(new AID(_consumerName, AID.ISLOCALNAME));

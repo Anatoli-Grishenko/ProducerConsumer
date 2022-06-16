@@ -80,4 +80,9 @@ public class SimpleConsumer extends PlainAgent {
         }
     }
 
+    @Override
+    public void takeDown() {
+        this.saveSequenceDiagram(getLocalName() + ".seqd");
+        super.takeDown();
+    }
 }

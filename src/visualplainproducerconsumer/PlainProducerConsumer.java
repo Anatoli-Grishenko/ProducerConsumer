@@ -5,10 +5,10 @@
  */
 package visualplainproducerconsumer;
 
+import appboot.JADEBoot;
 import appboot.LARVABoot;
 import console.Console;
 import static console.Console.white;
-
 
 /**
  *
@@ -16,33 +16,48 @@ import static console.Console.white;
  */
 public class PlainProducerConsumer {
 
-    static LARVABoot _app;
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-        _app = new LARVABoot(LARVABoot.METAL);
-//       _app.Boot();
-
-        VisualSimpleProducerConsumer();
-
-        _app.WaitToShutDown();
+//        TextSimpleProducerConsumer();
+        VisualSimpleProducerConsumer1();
+//        VisualSimpleProducerConsumer2();
     }
 
-    public static void VisualSimpleProducerConsumer() {
-        _app.loadAgent("Smith", SimpleConsumer.class);
-        _app.loadAgent("Neo", SimpleProducer.class);
+    public static void TextSimpleProducerConsumer() {
+        JADEBoot _console;
+        _console = new JADEBoot();
+        _console.Boot("localhost", 1099);
+        _console.launchAgent("Smith", SimpleConsumer.class);
+        _console.launchAgent("Neo", SimpleProducer.class);
+        _console.WaitAndShutDown();
     }
 
-    public static void VisualRealProducerConsumer() {
-        Console console = new Console("Producer-Consumer", 120, 20);
-        console.clearScreen().setText(white).captureStdInOut().setCursorOff();
-
-        _app.launchAgent("Smith    ", RealConsumer.class);
-        _app.launchAgent("Neo      ", RealProducer.class);
-        console.waitToClose();
+    public static void VisualSimpleProducerConsumer1() {
+        LARVABoot _gui;
+        _gui = new LARVABoot();
+        _gui.Boot("localhost", 1099);
+        _gui.launchAgent("Smith", SimpleConsumer.class);
+        _gui.launchAgent("Neo", SimpleProducer.class);
+        _gui.WaitToShutDown();
     }
 
+    public static void VisualSimpleProducerConsumer2() {
+        LARVABoot _gui;
+        _gui = new LARVABoot();
+        _gui.Boot("localhost", 1099);
+        _gui.loadAgent("Smith", SimpleConsumer.class);
+        _gui.loadAgent("Neo", SimpleProducer.class);
+        _gui.WaitToShutDown();
+    }
+
+//    public static void VisualRealProducerConsumer() {
+//        Console console = new Console("Producer-Consumer", 120, 20);
+//        console.clearScreen().setText(white).captureStdInOut().setCursorOff();
+//
+//        _console.launchAgent("Smith    ", RealConsumer.class);
+//        _console.launchAgent("Neo      ", RealProducer.class);
+//        console.waitToClose();
+//    }
 }
