@@ -5,25 +5,6 @@
  */
 package visualplainproducerconsumer;
 
-import agents.LARVABaseAgent;
-import agents.LARVAFirstAgent;
-import static console.Console.black;
-import static console.Console.defBackground;
-import static console.Console.defColor;
-import static console.Console.defCursorXY;
-import static console.Console.defText;
-import static console.Console.gray;
-import static console.Console.green;
-import static console.Console.red;
-import static console.Console.white;
-import jade.lang.acl.ACLMessage;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.util.Scanner;
-import tools.emojis;
-
 /**
  *
  * @author lcv
@@ -33,10 +14,10 @@ public class SimpleConsumer extends PlainAgent {
     @Override
     public void setup() {
         super.setup();
-        this.maxClock = 6;
-        latencyms = 10;
+        this.maxClock = 5;
+        this.countClock=0;
         state = Status.WAITING;
-        exit = false;
+        this.doNotExit();
     }
 
     @Override
@@ -78,6 +59,7 @@ public class SimpleConsumer extends PlainAgent {
                 doExit();
                 break;
         }
+        this.clock++;
     }
 
     @Override

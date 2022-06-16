@@ -17,12 +17,12 @@ import tools.emojis;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class PlainAgent extends LARVAFirstAgent{
+public class PlainAgent extends LARVAFirstAgent {
 
     boolean _exit;
     String message = "", tabs = "";
     ACLMessage _inbox, _outbox;
-    int latencyms = 1000;
+    int latencyms = 10;
 
     enum Status {
         PROCESSING, PREPARING, RECEIVING, SENDING, WAITING, EXIT
@@ -30,8 +30,8 @@ public class PlainAgent extends LARVAFirstAgent{
     Status state;
 
     // Scheduling
-    int maxTime = 100, clock = 1;
-    int nmessages = 0, countClock = 1, maxClock = 3;
+    int maxTime = 100, clock = 0;
+    int nmessages = 0, countClock = 0, maxClock = 3;
 
     @Override
     public void setup() {
@@ -40,7 +40,8 @@ public class PlainAgent extends LARVAFirstAgent{
         Info(tabs + "Booting");
         state = Status.WAITING;
     }
-      public void saveTime() {
+
+    public void saveTime() {
         try {
             PrintWriter p = new PrintWriter(new FileOutputStream("consumer.txt"));
             p.println(clock);
@@ -68,43 +69,31 @@ public class PlainAgent extends LARVAFirstAgent{
 
     public String doProgress(int value, int max) {
         String res = "";
-        for (int i = 0; i < max; i++) {
+        for (int i = 1; i <= max; i++) {
             if (i < value) {
                 res += emojis.BLACKSQUARE;
             } else {
                 res += emojis.WHITESQUARE;
             }
         }
+        res += "" + value + "/" + max;
         return res;
     }
+
     protected void mark() {
         if (state == Status.RECEIVING) {
-            Info(tabs + doProgress(countClock,this.maxClock)+"["+nmessages+"]");
+            Info(tabs + doProgress(countClock, this.maxClock) + "[" + nmessages + "]");
         } else if (state == Status.PREPARING) {
-            Info(tabs + doProgress(countClock,this.maxClock)+(countClock==maxClock?"["+nmessages+"]":""));
-            this.doWait((int)(latencyms*(1+Math.random()-0.5)));
+            Info(tabs + doProgress(countClock, this.maxClock) + (countClock == maxClock ? "[" + nmessages + "]" : ""));
+            this.doWait((int) (latencyms * (1 + Math.random() - 0.5)));
         } else if (state == Status.PROCESSING) {
-            Info(tabs + doProgress(countClock,this.maxClock));
-            this.doWait((int)(latencyms*(1+Math.random()-0.5)));
+            Info(tabs + doProgress(countClock, this.maxClock));
+            this.doWait((int) (latencyms * (1 + Math.random() - 0.5)));
         } else if (state == Status.EXIT) {
-            Info(tabs + doProgress(countClock,this.maxClock)+" X");
+            Info(tabs + doProgress(countClock, this.maxClock) + " X");
         } else if (state == Status.WAITING) {
-            Info(tabs + doProgress(countClock,this.maxClock)+" W");
+            Info(tabs + doProgress(countClock, this.maxClock) + " W");
         }
-//        if (state == Status.RECEIVING) {
-//            Info(tabs + doProgress(countClock,this.maxClock)+"["+nmessages+"]");
-//        } else if (state == Status.PREPARING) {
-//            Info(tabs +"("+this.getNCycles()+")"+ doProgress(countClock,this.maxClock)+(countClock==maxClock?"["+nmessages+"]":""));
-//            this.doWait(latencyms);
-//        } else if (state == Status.PROCESSING) {
-//            Info(tabs +"("+this.getNCycles()+")"+ doProgress(countClock,this.maxClock));
-//            this.doWait(latencyms);
-//        } else if (state == Status.EXIT) {
-//            Info(tabs +"("+this.getNCycles()+")"+ doProgress(countClock,this.maxClock)+" X");
-//        } else if (state == Status.WAITING) {
-//            Info(tabs +"("+this.getNCycles()+")"+ doProgress(countClock,this.maxClock)+" W");
-//        }
-        clock++;
     }
-  
+
 }

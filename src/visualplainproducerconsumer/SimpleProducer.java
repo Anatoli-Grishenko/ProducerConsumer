@@ -5,25 +5,8 @@
  */
 package visualplainproducerconsumer;
 
-import agents.LARVABaseAgent;
-import agents.LARVAFirstAgent;
-import static console.Console.black;
-import static console.Console.defBackground;
-import static console.Console.defCursorXY;
-import static console.Console.defText;
-import static console.Console.green;
-import static console.Console.red;
-import static console.Console.white;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import tools.emojis;
 
 /**
  *
@@ -38,9 +21,9 @@ public class SimpleProducer extends PlainAgent {
         super.setup();
         tabs = "\t\t\t";
         this.maxClock = 10;
-        latencyms = 10;
+        this.countClock=0;
         state = Status.PREPARING;
-        exit = false;
+        this.doNotExit();
     }
 
     @Override
@@ -56,7 +39,7 @@ public class SimpleProducer extends PlainAgent {
                 }
                 break;
             case SENDING:
-                message =  "" + nmessages;
+                message = "" + nmessages;
                 message = (Math.random() < 0.95 && clock < maxTime / 2
                         ? "" + nmessages : "STOP");
                 _outbox = new ACLMessage();
@@ -79,6 +62,7 @@ public class SimpleProducer extends PlainAgent {
                 this.doExit();
                 break;
         }
+        this.clock++;
     }
 
 }

@@ -21,8 +21,9 @@ public class PlainProducerConsumer {
      */
     public static void main(String[] args) {
 //        TextSimpleProducerConsumer();
-        VisualSimpleProducerConsumer1();
-//        VisualSimpleProducerConsumer2();
+//        VisualSimpleProducerConsumer1();
+        VisualSimpleProducerConsumer2();
+//        VisualRealProducerConsumer();
     }
 
     public static void TextSimpleProducerConsumer() {
@@ -52,12 +53,14 @@ public class PlainProducerConsumer {
         _gui.WaitToShutDown();
     }
 
-//    public static void VisualRealProducerConsumer() {
-//        Console console = new Console("Producer-Consumer", 120, 20);
-//        console.clearScreen().setText(white).captureStdInOut().setCursorOff();
-//
-//        _console.launchAgent("Smith    ", RealConsumer.class);
-//        _console.launchAgent("Neo      ", RealProducer.class);
-//        console.waitToClose();
-//    }
+    public static void VisualRealProducerConsumer() {
+        Console terminal = new Console("Producer-Consumer", 120, 20);
+        JADEBoot _console;
+        _console = new JADEBoot();
+        _console.Boot("localhost", 1099);
+        terminal.clearScreen().setText(white).captureStdInOut().setCursorOff();
+        _console.launchAgent("Smith", RealConsumer.class);
+        _console.launchAgent("Neo", RealProducer.class);
+        _console.WaitAndShutDown();
+    }
 }
