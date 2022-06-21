@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package visualplainproducerconsumer;
+package ProducerConsumer;
 
 import agents.LARVAFirstAgent;
+import static crypto.Keygen.getWordo;
+import glossary.Dictionary;
 import jade.lang.acl.ACLMessage;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 import tools.emojis;
 
@@ -19,10 +22,11 @@ import tools.emojis;
  */
 public class PlainAgent extends LARVAFirstAgent {
 
+    Dictionary d;
     boolean _exit;
-    String message = "", tabs = "";
+    String message = "", tabs = "", receiver, stopper = "STOP", controller="Trinity";
     ACLMessage _inbox, _outbox;
-    int latencyms = 10;
+    int latencyms = 2000;
 
     enum Status {
         PROCESSING, PREPARING, RECEIVING, SENDING, WAITING, EXIT
@@ -38,7 +42,36 @@ public class PlainAgent extends LARVAFirstAgent {
         super.setup();
         saveTime();
         Info(tabs + "Booting");
+        d = new Dictionary();
+        d.load("config/EN.words");
+        logger.onTabular();
         state = Status.WAITING;
+    }
+
+    public String findFirstWord() {
+        String wordo;
+        ArrayList<String> words;
+        do {
+            wordo = getWordo(4);
+            words = d.completeWord(wordo, 25);
+        } while (words.size() == 0);
+        return words.get((int) (Math.random() * words.size()));
+    }
+
+    public String findNextWord(String word) {
+        ArrayList<String> words;
+        int n = 3;
+        do {
+            try {
+                words = d.completeWord(word.substring(word.length() - n), 10);
+                if (words.size() > 0) {
+                    return words.get((int) (Math.random() * words.size()));
+                }
+            } catch (Exception ex) {
+
+            }
+            n--;
+        } while (true);
     }
 
     public void saveTime() {
