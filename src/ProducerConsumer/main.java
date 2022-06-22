@@ -18,9 +18,9 @@ public class main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        chainedWordsTTY();
+//        chainedWordsTTY();
 //        chainedWordsX();
-//    sequentialWordsX();
+    sequentialWordsX();
     }
 
     public static void chainedWordsTTY() {

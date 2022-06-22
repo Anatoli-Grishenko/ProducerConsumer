@@ -63,7 +63,7 @@ public class ProductionController extends PlainAgent {
             word = inbox.getContent().substring(1);
             consumed.add(word);
             Info(word + " releases " + words.get(0));
-            if (words.size() == MAXPROD) {
+            if (words.size() == MAXPROD/2) {
                 outbox.setContent("RESUME ");
                 this.LARVAsend(outbox);
                 Info("Resuming production");

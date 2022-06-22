@@ -43,6 +43,7 @@ public class WordProducer extends PlainAgent {
         // nor allow (auto) sequence diagrams        
         this.LARVAsend(outbox);
         Info("Says : " + word);
+        this.saveSequenceDiagram("tmp.seqd");
         // If it sent "STOP", then ends
         if (word.equals(stopper)) {
             doExit();
@@ -64,6 +65,5 @@ public class WordProducer extends PlainAgent {
                 word = this.findFirstWord();
             }
         }
-        this.saveSequenceDiagram("tmp.seqd");
     }
 }
