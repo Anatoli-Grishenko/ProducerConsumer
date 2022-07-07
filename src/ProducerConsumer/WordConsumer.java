@@ -12,7 +12,7 @@ import jade.lang.acl.ACLMessage;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class WordConsumer extends PlainAgent {
+public class WordConsumer extends ProdConsAgent {
 
     String word = "";
 

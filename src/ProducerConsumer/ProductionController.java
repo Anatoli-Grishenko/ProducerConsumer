@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class ProductionController extends PlainAgent {
+public class ProductionController extends ProdConsAgent {
 
     protected final int MAXPROD = 5;
     ArrayList<String> words, produced, consumed;

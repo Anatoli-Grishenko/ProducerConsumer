@@ -20,7 +20,8 @@ public class main {
     public static void main(String[] args) {
 //        chainedWordsTTY();
 //        chainedWordsX();
-    sequentialWordsX();
+        chainedWordsXQueue();
+//    sequentialWordsX();
     }
 
     public static void chainedWordsTTY() {
@@ -39,6 +40,16 @@ public class main {
         _console.Boot("localhost", 1099);
         _console.launchAgent("Neo", WordFollower.class);
         _console.launchAgent("Smith", WordStarter.class);
+        _console.WaitToShutDown();
+        
+    }
+    
+    public static void chainedWordsXQueue() {
+        LARVABoot _console;
+        _console = new LARVABoot();
+        _console.Boot("localhost", 1099);
+        _console.launchAgent("Neo", WordFollowerQueue.class);
+        _console.launchAgent("Smith", WordStarterQueue.class);
         _console.WaitToShutDown();
         
     }

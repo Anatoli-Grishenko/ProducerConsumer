@@ -5,6 +5,7 @@
  */
 package ProducerConsumer;
 
+import data.Transform;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 
@@ -12,9 +13,11 @@ import jade.lang.acl.ACLMessage;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class WordStarter extends ProdConsAgent {
+public class WordStarterQueue extends ProdConsAgent {
 
     String word = "";
+    String Conversations[] = new String[]{"PLAY", "SERIOUS", "NONE"};
+    String convID;
 
     @Override
     public void setup() {
@@ -24,6 +27,7 @@ public class WordStarter extends ProdConsAgent {
         receiver = "Neo";
         // Randomly generate first word
         word = this.findFirstWord();
+        convID = Transform.outOf(Conversations);
     }
 
     @Override
@@ -33,24 +37,36 @@ public class WordStarter extends ProdConsAgent {
         outbox.setSender(getAID());
         outbox.addReceiver(new AID(receiver, AID.ISLOCALNAME));
         outbox.setContent(word);
+        outbox.setConversationId(convID);
         // this.send(outbox) would also work,  
         // but it does not keep record of sent/received messages 
         // nor allow (auto) sequence diagrams        
         this.LARVAsend(outbox);
-        Info("Says : " + word);
         // If it sent "STOP", then ends
         if (word.equals(stopper)) {
             doExit();
         } else {
-            // Waits for the answer            
-            inbox = this.LARVAblockingReceive();
-            Info("Gets: " + inbox.getContent());
-            // Randomly interrupts the game and stops.
-            // If it receives the same word that was set, it stops
-            if (Math.random() > 0.8 || inbox.getContent().equals(word)) {
-                word = stopper;
+            // Waits for the answer   
+            if (convID.equals("PLAY")) {
+                Info("Plays : " + word);
+                inbox = this.LARVAblockingReceive();
+                Info("Gets: " + inbox.getContent());
+                if (word.equals(inbox.getContent())) {
+                    word = stopper;
+                } else {
+                    word = this.findNextWord(inbox.getContent());
+                }
             } else {
-                word = this.findNextWord(inbox.getContent());
+                Info("Says : " + word);
+                this.LARVAwait(500);
+                // Randomly interrupts the game and stops.
+                if (Math.random() > 0.9) {
+                    word = stopper;
+                    convID = "PLAY";
+                } else {
+                    word = this.findFirstWord();
+                    convID = Transform.outOf(Conversations);
+                }
             }
         }
     }
