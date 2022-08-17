@@ -5,7 +5,7 @@
  */
 package ProducerConsumer;
 
-import agents.LARVAConversationAgent;
+import agents.LARVADialogicalAgent;
 import agents.LARVAFirstAgent;
 import static crypto.Keygen.getWordo;
 import glossary.Dictionary;
@@ -21,7 +21,7 @@ import tools.emojis;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class ProdConsAgent extends LARVAConversationAgent {
+public class ProdConsAgent extends LARVADialogicalAgent {
 
     Dictionary d;
     boolean _exit;

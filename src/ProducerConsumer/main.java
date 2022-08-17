@@ -7,6 +7,7 @@ package ProducerConsumer;
 
 import appboot.JADEBoot;
 import appboot.LARVABoot;
+import crypto.Keygen;
 
 /**
  *
@@ -19,9 +20,10 @@ public class main {
      */
     public static void main(String[] args) {
 //        chainedWordsTTY();
-//        chainedWordsX();
-        chainedWordsXQueue();
+        chainedWordsX();
+//        chainedWordsXQueue();
 //    sequentialWordsX();
+//        NetworkWordsX();
     }
 
     public static void chainedWordsTTY() {
@@ -31,9 +33,9 @@ public class main {
         _console.launchAgent("Neo", WordFollower.class);
         _console.launchAgent("Smith", WordStarter.class);
         _console.WaitToShutDown();
-        
+
     }
-    
+
     public static void chainedWordsX() {
         LARVABoot _console;
         _console = new LARVABoot();
@@ -41,19 +43,32 @@ public class main {
         _console.launchAgent("Neo", WordFollower.class);
         _console.launchAgent("Smith", WordStarter.class);
         _console.WaitToShutDown();
-        
+
     }
-    
-    public static void chainedWordsXQueue() {
+
+    public static void NetworkWordsX() {
         LARVABoot _console;
         _console = new LARVABoot();
         _console.Boot("localhost", 1099);
-        _console.launchAgent("Neo", WordFollowerQueue.class);
-        _console.launchAgent("Smith", WordStarterQueue.class);
+        for (int i = 0; i < 5; i++) {
+            _console.launchAgent("" + i, WordPlayer.class);
+        }
+//        _console.launchAgent("Smith", WordPlayer.class);
+//        _console.launchAgent("Trinity", WordPlayer.class);
+//        _console.launchAgent("Morpheus", WordPlayer.class);
         _console.WaitToShutDown();
-        
+
     }
-    
+
+//    public static void chainedWordsXQueue() {
+//        LARVABoot _console;
+//        _console = new LARVABoot();
+//        _console.Boot("localhost", 1099);
+//        _console.launchAgent("Neo", WordFollowerQueue.class);
+//        _console.launchAgent("Smith", WordStarterQueue.class);
+//        _console.WaitToShutDown();
+//        
+//    }
     public static void sequentialWordsX() {
         LARVABoot _console;
         _console = new LARVABoot(LARVABoot.LIGHT);
@@ -62,7 +77,7 @@ public class main {
         _console.launchAgent("Neo", WordConsumer.class);
         _console.launchAgent("Smith", WordProducer.class);
         _console.WaitToShutDown();
-        
+
     }
-    
+
 }

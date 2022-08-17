@@ -75,7 +75,6 @@ public class WordStarterQueue extends ProdConsAgent {
     public void takeDown() {
         // At the end, it automatically generates the sequence diagram
         this.saveSequenceDiagram("./" + getLocalName() + ".seqd");
-        this.clearSequenceDiagram();
         super.takeDown();
 
     }
