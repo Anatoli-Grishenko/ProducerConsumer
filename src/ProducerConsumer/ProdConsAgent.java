@@ -44,7 +44,7 @@ public class ProdConsAgent extends LARVADialogicalAgent {
         saveTime();
         Info(tabs + "Booting");
         d = new Dictionary();
-        d.load("config/EN.words");
+        d.load("config/ES.words");
         logger.onTabular();
         state = Status.WAITING;
     }
@@ -59,7 +59,7 @@ public class ProdConsAgent extends LARVADialogicalAgent {
         return words.get((int) (Math.random() * words.size()));
     }
 
-    public String findNextWord(String word) {
+   public String findNextWord(String word) {
         ArrayList<String> words;
         int n = 3;
         do {
@@ -73,6 +73,37 @@ public class ProdConsAgent extends LARVADialogicalAgent {
             }
             n--;
         } while (true);
+    }
+
+//    public String findNextWord(String word) {
+//        ArrayList<String> words;
+//        int n = 10, size=0;
+//        String theWord, bestWord="";
+//        do {
+//            try {
+//                words = d.completeWord(word.substring(word.length() - n), 10);
+//                if (words.size() > 0) {
+//                    theWord =words.get((int) (Math.random() * words.size()));
+//                    if (this.checkWords(theWord,word)>size) {
+//                        bestWord=theWord;
+//                        size=this.checkWords(theWord,word);
+//                    }
+//                }
+//            } catch (Exception ex) {
+//
+//            }
+//            n--;
+//        } while (n>0);
+//        return bestWord;
+//    }
+    
+    public int checkWords(String prev, String next) {
+        int res=0, max=(int)(Math.min(prev.length(), next.length()));
+        for (int i=0; i<max; i++)  {
+            if (prev.endsWith(next.substring(0, i)))
+                res= i;
+        }
+        return res;
     }
 
     public void saveTime() {

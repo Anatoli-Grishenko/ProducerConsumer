@@ -20,10 +20,10 @@ public class main {
      */
     public static void main(String[] args) {
 //        chainedWordsTTY();
-        chainedWordsX();
+//        chainedWordsX();
 //        chainedWordsXQueue();
 //    sequentialWordsX();
-//        NetworkWordsX();
+        NetworkWordsX();
     }
 
     public static void chainedWordsTTY() {
@@ -53,22 +53,10 @@ public class main {
         for (int i = 0; i < 5; i++) {
             _console.launchAgent("" + i, WordPlayer.class);
         }
-//        _console.launchAgent("Smith", WordPlayer.class);
-//        _console.launchAgent("Trinity", WordPlayer.class);
-//        _console.launchAgent("Morpheus", WordPlayer.class);
         _console.WaitToShutDown();
 
     }
 
-//    public static void chainedWordsXQueue() {
-//        LARVABoot _console;
-//        _console = new LARVABoot();
-//        _console.Boot("localhost", 1099);
-//        _console.launchAgent("Neo", WordFollowerQueue.class);
-//        _console.launchAgent("Smith", WordStarterQueue.class);
-//        _console.WaitToShutDown();
-//        
-//    }
     public static void sequentialWordsX() {
         LARVABoot _console;
         _console = new LARVABoot(LARVABoot.LIGHT);
