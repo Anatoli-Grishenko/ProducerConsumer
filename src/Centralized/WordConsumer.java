@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ProducerConsumer;
+package Centralized;
 
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
@@ -12,7 +12,7 @@ import jade.lang.acl.ACLMessage;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class WordConsumer extends ProdConsAgent {
+public class WordConsumer extends PCNonDialogical {
 
     String word = "";
 
@@ -23,7 +23,7 @@ public class WordConsumer extends ProdConsAgent {
         // Do not need to know the receiver, just answer
         //receiver = "Smith";
         // Minimum time to wait (ms) to process the word
-        latencyms = 1000;
+        tLatency_ms = 1000;
         logger.offEcho();
     }
 
@@ -39,7 +39,7 @@ public class WordConsumer extends ProdConsAgent {
             doExit();
         } else {
             // Informs Controller that it is done
-            word =this.findNextWord(word);
+            word =dict.findNextWord(word);
             Info ("Answered "+word);
             outbox = new ACLMessage();
             outbox.setSender(getAID());
@@ -49,7 +49,7 @@ public class WordConsumer extends ProdConsAgent {
             // but it does not keep record of sent/received messages 
             // nor allow (auto) sequence diagrams        
             this.LARVAsend(outbox);
-            clock = latencyms + (int) (Math.random() * latencyms);
+            clock = tLatency_ms + (int) (Math.random() * tLatency_ms);
             Info("Wating " + clock + " ms before the next word");
             LARVAwait(clock);
 

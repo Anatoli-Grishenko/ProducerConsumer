@@ -5,6 +5,14 @@
  */
 package ProducerConsumer;
 
+import Sequential.WordStarter;
+import Sequential.WordFollower;
+import Centralized.WordProducer;
+import Centralized.WordConsumer;
+import Centralized.ProductionController;
+import Dialogical.OpenCheater;
+import Dialogical.OpenWordPlayer;
+import Dialogical.BlockingWordPlayer;
 import appboot.JADEBoot;
 import appboot.LARVABoot;
 import crypto.Keygen;
@@ -20,10 +28,10 @@ public class main {
      */
     public static void main(String[] args) {
 //        chainedWordsTTY();
-//        chainedWordsX();
+        chainedWordsX();
 //        chainedWordsXQueue();
 //    sequentialWordsX();
-        NetworkWordsX();
+//        NetworkWordsX();
     }
 
     public static void chainedWordsTTY() {
@@ -50,9 +58,11 @@ public class main {
         LARVABoot _console;
         _console = new LARVABoot();
         _console.Boot("localhost", 1099);
-        for (int i = 0; i < 5; i++) {
-            _console.launchAgent("" + i, WordPlayer.class);
+        for (int i = 0; i < 2; i++) {
+            _console.launchAgent("" + i, OpenWordPlayer.class);
         }
+        _console.launchAgent("C", OpenCheater.class);
+        _console.launchAgent("B", BlockingWordPlayer.class);
         _console.WaitToShutDown();
 
     }

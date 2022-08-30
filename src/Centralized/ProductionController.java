@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ProducerConsumer;
+package Centralized;
 
 import console.Console;
 import static console.Console.defclearScreen;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class ProductionController extends ProdConsAgent {
+public class ProductionController extends PCNonDialogical {
 
     protected final int MAXPROD = 5;
     ArrayList<String> words, produced, consumed;
@@ -29,7 +29,7 @@ public class ProductionController extends ProdConsAgent {
         produced = new ArrayList();
         consumed = new ArrayList();
         logger.offTabular();
-        tty = new Console("Enchained words",60,80,10);
+        tty = new Console("Enchained words", 60, 80, 10);
         tty.setCursorOff();
         printStatus();
     }
@@ -50,11 +50,11 @@ public class ProductionController extends ProdConsAgent {
             words.add(word);
             if (words.size() == MAXPROD) {
                 Info("Suspending production");
-                outbox.setContent("SUSPEND "+word);
+                outbox.setContent("SUSPEND " + word);
                 this.LARVAsend(outbox);
                 produced.add("---");
             } else {
-                outbox.setContent("ACCEPT "+word);
+                outbox.setContent("ACCEPT " + word);
                 this.LARVAsend(outbox);
 
             }
@@ -63,7 +63,7 @@ public class ProductionController extends ProdConsAgent {
             word = inbox.getContent().substring(1);
             consumed.add(word);
             Info(word + " releases " + words.get(0));
-            if (words.size() == MAXPROD/2) {
+            if (words.size() == MAXPROD / 2) {
                 outbox.setContent("RESUME ");
                 this.LARVAsend(outbox);
                 Info("Resuming production");
@@ -76,25 +76,29 @@ public class ProductionController extends ProdConsAgent {
 
     public void printStatus() {
         tty.clearScreen();
-        tty.setCursorXY(1,1);
+        tty.setCursorXY(1, 1);
         tty.println("Producer");
-        tty.setCursorXY(20,1);
-        tty.println("Queue");
-        tty.setCursorXY(40,1);
+        tty.setCursorXY(20, 1);
+        tty.println("Queue ("+MAXPROD+")");
+        tty.setCursorXY(40, 1);
         tty.println("Consumer");
-        for (int i=0; i<produced.size(); i++) {
-            tty.setCursorXY(1, 2+i);
-            tty.print(produced.get(i));
+        for (int i = 0; i < produced.size(); i++) {
+            tty.setCursorXY(1, 2 + i);
+            tty.print("│ " + produced.get(i));
         }
-        for (int i=0; i<words.size(); i++) {
-            tty.setCursorXY(20, 2+i);
-            tty.print(words.get(i));
+        for (int i = 0; i < this.MAXPROD; i++) {
+            tty.setCursorXY(20, 2 + i);
+            tty.print("│ ");
+            if (i < words.size()) {
+                tty.print(words.get(i));
+            }
         }
-        for (int i=0; i<consumed.size(); i++) {
-            tty.setCursorXY(40, 2+i);
-            tty.print(consumed.get(i));
+        for (int i = 0; i < consumed.size(); i++) {
+            tty.setCursorXY(40, 2 + i);
+            tty.print("│ " + consumed.get(i));
         }
     }
+
     @Override
     public void takeDown() {
         // At the end, it automatically generates the sequence diagram

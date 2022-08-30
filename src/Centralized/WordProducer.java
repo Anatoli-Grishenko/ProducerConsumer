@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ProducerConsumer;
+package Centralized;
 
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
@@ -12,7 +12,7 @@ import jade.lang.acl.ACLMessage;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class WordProducer extends ProdConsAgent {
+public class WordProducer extends PCNonDialogical {
 
     String word;
 
@@ -23,11 +23,11 @@ public class WordProducer extends ProdConsAgent {
         // Who is the receiver of the first word
         receiver = "Neo";
         // Minimum time to wait (ms) before sending the next word
-        latencyms = 100;
+        tLatency_ms = 100;
         word = "";
         logger.offEcho();
         // Randomly generate first word
-        word = this.findFirstWord();
+        word = dict.findFirstWord();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class WordProducer extends ProdConsAgent {
             } while (!inbox.getContent().startsWith("ACCEPT") &&
                     !inbox.getContent().startsWith("RESUME"));
             // Waits for the next word            
-            this.clock = latencyms + (int) (Math.random() * latencyms);
+            this.clock = tLatency_ms + (int) (Math.random() * tLatency_ms);
             Info("Wating " + clock + " ms to the next word");
             this.LARVAwait(clock);
             // Randomly interrupts the game and stops.
@@ -62,7 +62,7 @@ public class WordProducer extends ProdConsAgent {
             if (Math.random() > 0.8 && this.getNCycles()>6) {
                 word = stopper;
             } else {
-                word = this.findFirstWord();
+                word = dict.findFirstWord();
             }
         }
     }

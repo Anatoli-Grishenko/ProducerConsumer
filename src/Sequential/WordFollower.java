@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ProducerConsumer;
+package Sequential;
 
+import Centralized.PCNonDialogical;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 
@@ -12,7 +13,7 @@ import jade.lang.acl.ACLMessage;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class WordFollower extends ProdConsAgent {
+public class WordFollower extends PCNonDialogical {
 
     String word = "";
 
@@ -31,11 +32,11 @@ public class WordFollower extends ProdConsAgent {
         word = inbox.getContent();
         Info("Gets: " + word);
         // If it is STOP, the stops the llop and terminate
-        if (word.equals(stopper)) {
+        if (word.equals(wordStopper)) {
             doExit();
         } else {
         // Otherwise, find the chained word and continue
-            word = this.findNextWord(word);
+            word = dict.findNextWord(word);
             // Does not need to buld a new message. Instead, it
             // answers to the previous one
             outbox = inbox.createReply();
@@ -45,5 +46,12 @@ public class WordFollower extends ProdConsAgent {
         }
 
     }
+    
+    @Override
+    public void takeDown() {
+        super.takeDown();
+        Info("SEQUENCE DIAGRAM:\n"+this.getSequenceDiagram());
+    }
 
+    
 }

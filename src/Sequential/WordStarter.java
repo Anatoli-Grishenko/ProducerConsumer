@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ProducerConsumer;
+package Sequential;
 
+import Centralized.PCNonDialogical;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 
@@ -12,7 +13,7 @@ import jade.lang.acl.ACLMessage;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class WordStarter extends ProdConsAgent {
+public class WordStarter extends PCNonDialogical {
 
     String word = "";
 
@@ -23,7 +24,7 @@ public class WordStarter extends ProdConsAgent {
         // Who is the receiver of the first word
         receiver = "Neo";
         // Randomly generate first word
-        word = this.findFirstWord();
+        word = dict.findFirstWord();
     }
 
     @Override
@@ -39,7 +40,7 @@ public class WordStarter extends ProdConsAgent {
         this.LARVAsend(outbox);
         Info("Says : " + word);
         // If it sent "STOP", then ends
-        if (word.equals(stopper)) {
+        if (word.equals(wordStopper)) {
             doExit();
         } else {
             // Waits for the answer            
@@ -48,9 +49,9 @@ public class WordStarter extends ProdConsAgent {
             // Randomly interrupts the game and stops.
             // If it receives the same word that was set, it stops
             if (Math.random() > 0.8 || inbox.getContent().equals(word)) {
-                word = stopper;
+                word = wordStopper;
             } else {
-                word = this.findNextWord(inbox.getContent());
+                word = dict.findNextWord(inbox.getContent());
             }
         }
     }
