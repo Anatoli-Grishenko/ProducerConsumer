@@ -56,12 +56,4 @@ public class WordStarter extends PCNonDialogical {
         }
     }
 
-    @Override
-    public void takeDown() {
-        // At the end, it automatically generates the sequence diagram
-        this.saveSequenceDiagram("./" + getLocalName() + ".seqd");
-        super.takeDown();
-
-    }
-
 }

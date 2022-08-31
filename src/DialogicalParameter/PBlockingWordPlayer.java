@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Dialogical;
+package DialogicalParameter;
 
 import data.Transform;
 import jade.core.AID;
@@ -17,31 +17,31 @@ import tools.TimeHandler;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class BlockingWordPlayer extends OpenWordPlayer {
+public class PBlockingWordPlayer extends POpenWordPlayer {
 
     @Override
     public void setup() {
         // Setup higher classes
         super.setup();
+        request=null;
     }
 
     @Override
     public void Execute() {
         this.sendNewWord();
-        if (this.LARVAhasUnexpectedRequests()) {
-            processUnexpected();
-        }
+        processUnexpected();
         if (checkExit()) {
             doExit();
         }
     }
 
-    public void sendNewWord() {
+    @Override
+    public ACLMessage sendNewWord() {
         if (nMessages <= 0) {
-            return;
+            return null;
         }
         selectPartners();
-        wordsent = this.findFirstWord();
+        wordsent = dict.findFirstWord();
         Info("Starting a new thread: " + wordsent);
         request = new ACLMessage(ACLMessage.QUERY_IF);
         request.setSender(getAID());
@@ -53,7 +53,11 @@ public class BlockingWordPlayer extends OpenWordPlayer {
         if (ACLMessageTools.getAllReceivers(request).length() > 0) {
             request.setContent(wordsent);
             request.setReplyWith(wordsent);
-            request.setConversationId(crypto.Keygen.getHexaKey());
+            if (Modes.contains(MODE.SINGLECID)) {
+                request.setConversationId(CID);
+            } else {
+                request.setConversationId(crypto.Keygen.getHexaKey());
+            }
             if (tDeadline_s > 0 && Modes.contains(MODE.DEADLINES)) {
                 request.setReplyByDate(TimeHandler.nextSecs(tDeadline_s).toDate());
             }
@@ -65,10 +69,10 @@ public class BlockingWordPlayer extends OpenWordPlayer {
             for (int i = 0; i < received.length; i++) {
                 Info(ACLMessageTools.fancyWriteACLM(received[i]));
                 if (received[i].getPerformative() == ACLMessage.INFORM) {
-                    if (!this.d.findWord(received[i].getContent())) {
+                    if (!this.dict.findWord(received[i].getContent())) {
                         incidences.add("Unkown word " + received[i].getContent());
                     }
-                    if (this.checkWords(request.getContent(), received[i].getContent()) < 0) {
+                    if (dict.checkWords(request.getContent(), received[i].getContent()) < 0) {
                         incidences.add("Word received " + received[i].getContent() + " does not match " + request.getContent());
                     }
                 } else {
@@ -83,12 +87,14 @@ public class BlockingWordPlayer extends OpenWordPlayer {
             } else {
                 Info("Closing conversation about " + request.getContent());
             }
-            this.LARVAcloseDialogue(request);
-            if (nMessages > 0) {
-                sendNewWord();
-                nMessages--;
-            }
+//            this.LARVAcloseUtterance(request);
+//            if (nMessages > 0) {
+//                sendNewWord();
+//                nMessages--;
+//            }
+            return request;
         }
+        return null;
     }
 }
 //    @Override

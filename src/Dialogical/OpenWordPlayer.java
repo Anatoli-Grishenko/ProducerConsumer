@@ -5,6 +5,7 @@
  */
 package Dialogical;
 
+import Dialogical.PCDialogical;
 import data.Transform;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
@@ -23,54 +24,61 @@ public class OpenWordPlayer extends PCDialogical {
     public void setup() {
         // Setup higher classes
         super.setup();
+        // Register DF with my new service so others could find me
         this.DFAddMyServices(new String[]{"WORDPLAYER"});
-        this.activateSequenceDiagrams();
-        if (sd.getOwner().equals(getLocalName())) {
-            Info("I am the owner");
-            tTotalWait_ms += 5000;
-        }
-        nIter = tTotalWait_ms / tWait_ms;
-        Modes.clear();
-        Modes.add(MODE.POLITE);
-//        Modes.add(MODE.DEADLINES);
-//        this.logger.offEcho();
+        // Máx number of turns of sending/receiving words
+        nMessages = 1;
+        // Number of rivals per player
+        nPlayers = 2;
     }
 
     @Override
     public void Execute() {
-        openTurn();
+        if (nMessages > 0) {
+            sendNewWord();
+            nMessages--;
+        }
+        processMyAnswers();
+        if (this.LARVAhasUnexpectedRequests()) {
+            processUnexpected();
+        }
+        if (checkExit()) {
+            doExit();
+        }
+    }
+
+    public void respondTo(ACLMessage m) {
+        wordreceived = dict.findNextWord(m.getContent());
+        outbox = this.LARVAreplySender(m);
+        outbox.setPerformative(ACLMessage.INFORM);
+        outbox.setContent(wordreceived);
+        outbox.setReplyWith(wordreceived);
+        this.LARVADialogue(outbox);
     }
 
     public void selectPartners() {
-        partners = this.getNextPlayer(nPlayers);       
+        partners = this.getRivals(nPlayers);
         Info("I will play with " + Transform.toArrayList(partners).toString());
     }
-    
-    public void sendNewWord() {
+
+    public ACLMessage sendNewWord() {
         if (nMessages <= 0) {
-            return;
+            return null;
         }
         selectPartners();
-        wordsent = this.findFirstWord();
+        wordsent = dict.findFirstWord();
         Info("Starting a new thread: " + wordsent);
         request = new ACLMessage(ACLMessage.QUERY_IF);
         request.setSender(getAID());
         for (String p : partners) {
-            if (this.AMSIsConnected(p)) {
-                request.addReceiver(new AID(p, AID.ISLOCALNAME));
-            }
+            request.addReceiver(new AID(p, AID.ISLOCALNAME));
         }
-        if (ACLMessageTools.getAllReceivers(request).length() > 0) {
-            request.setContent(wordsent);
-            request.setReplyWith(wordsent);
-            request.setConversationId(crypto.Keygen.getHexaKey());
-            if (tDeadline_s > 0 && Modes.contains(MODE.DEADLINES)) {
-                request.setReplyByDate(TimeHandler.nextSecs(tDeadline_s).toDate());
-            }
-            this.LARVADialogue(request);
-        } else {
-            Info("Too late to play");
-        }
+        request.setContent(wordsent);
+        request.setReplyWith(wordsent);
+        request.setConversationId(crypto.Keygen.getHexaKey());
+        this.LARVADialogue(request);
+        nMessages--;
+        return request;
     }
 
     public void processUnexpected() {
@@ -81,21 +89,17 @@ public class OpenWordPlayer extends PCDialogical {
         for (ACLMessage m : received) {
             if (m.getContent().startsWith(wordStopper)) {
                 urgentExit = true;
-                incidences.add("Requested to stop");
                 return;
             }
         }
         for (ACLMessage m : received) {
-            if (m.getPerformative() == ACLMessage.QUERY_IF) {
-                wordreceived = this.findNextWord(m.getContent());
-                outbox = this.LARVAreplySender(m);
-                outbox.setPerformative(ACLMessage.INFORM);
-                outbox.setContent(wordreceived);
-                outbox.setReplyWith(wordreceived);
-                this.LARVADialogue(outbox);
-                this.LARVAcloseDialogue(m);
+            if (Modes.contains(MODE.RECURSIVE)) {
+                if (nMessages > 0) {
+                    respondTo(m);
+                    nMessages--;
+                }
             } else {
-                this.NotUnderstood(m);
+                respondTo(m);
             }
         }
     }
@@ -110,28 +114,13 @@ public class OpenWordPlayer extends PCDialogical {
             for (int i = 0; i < received.length; i++) {
                 Info(ACLMessageTools.fancyWriteACLM(received[i]));
                 if (received[i].getPerformative() == ACLMessage.INFORM) {
-                    if (!this.d.findWord(received[i].getContent())) {
-                        incidences.add("Unkown word " + received[i].getContent());
+                    if (!this.dict.findWord(received[i].getContent())) {
+                        Info("Unkown word " + received[i].getContent());
                     }
-                    if (this.checkWords(request.getContent(), received[i].getContent()) < 0) {
-                        incidences.add("Word received " + received[i].getContent() + " does not match " + request.getContent());
-                    }
-                } else {
-                    if (received[i].getPerformative() != ACLMessage.NOT_UNDERSTOOD) {
-                        this.NotUnderstood(received[i]);
-                        incidences.add("Received a bad performative");
+                    if (dict.checkWords(request.getContent(), received[i].getContent()) < 0) {
+                        Info("Word received " + received[i].getContent() + " does not match " + request.getContent());
                     }
                 }
-            }
-            if (this.LARVAgetDialogueStatus(request) == Utterance.Status.OVERDUE) {
-                incidences.add("Missed answers to my request " + request.getContent());
-            } else {
-                Info("Closing conversation about " + request.getContent());
-            }
-            this.LARVAcloseDialogue(request);
-            if (nMessages > 0) {
-                sendNewWord();
-                nMessages--;
             }
         }
     }
@@ -140,7 +129,6 @@ public class OpenWordPlayer extends PCDialogical {
         if (urgentExit) {
             return true;
         }
-//        this.LARVAcheckOpenDialogs();
         if (sd.getOwner().equals(getLocalName())) {
             this.getSequenceDiagram();
             if (this.DFGetAllProvidersOf("WORDPLAYER").size() < 2) {
@@ -172,46 +160,8 @@ public class OpenWordPlayer extends PCDialogical {
         return false;
     }
 
-    public void NotUnderstood(ACLMessage m) {
-        outbox = this.LARVAreplySender(m);
-        outbox.setPerformative(ACLMessage.NOT_UNDERSTOOD);
-        outbox.setContent("");
-        this.LARVADialogue(outbox);
-    }
-
-    public void openTurn() {
-//        this.LARVAcheckOpenDialogs();
-//        Info("Expected waiting time " + (nIter * this.tWait_ms) + "ms");
-//        Info(this.DM.toString());
-        if (nMessages > 0) {
-            sendNewWord();
-            nMessages--;
-        }
-        processMyAnswers();
-        if (this.LARVAhasUnexpectedRequests()) {
-            processUnexpected();
-        }
-        if (checkExit()) {
-            doExit();
-        }
-    }
-
-    @Override
-    public void ignoreMessage(ACLMessage m
-    ) {
-        incidences.add("Ignored message " + m.getContent());
-    }
-
     @Override
     public void takeDown() {
-//        Message("Achieved " + nPoints + " pts");
-        // At the end, it automatically generates the sequence diagram
-        if (incidences.size() == 0) {
-            Info("\n%%%%%%%%%%%%%%%%%%%%\nEverything went well\n%%%%%%%%%%%%%%%%%%%%\n");
-        } else {
-            Info("\n%%%%%%%%%%%%%%%%%%%%\nIncidences detected: " + incidences.toString() + "\n%%%%%%%%%%%%%%%%%%%%\n");
-            Message("Indicences:\n" + incidences.toString());
-        }
         this.saveSequenceDiagram("./" + getLocalName() + ".seqd");
         super.takeDown();
 

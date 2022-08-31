@@ -27,17 +27,16 @@ public class PCDialogical extends LARVADialogicalAgent {
 
     protected enum MODE {
         POLITE, DEADLINES, DELAYANSWERS, URGENCY, BLOCKING, CHEAT,
-        MISTAKES, JUSTANSWER, MANUAL
+        MISTAKES, JUSTANSWER, MANUAL, RECURSIVE, SINGLECID
     };
     protected ArrayList<MODE> Modes;
-    protected Dictionary d;
-    protected String message = "", tabs = "", receiver, stopper = "STOP", controller = "Trinity";
+    protected Dictionary dict;
     protected ACLMessage _inbox, _outbox;
     protected int tDeadline_s = 60, tWait_ms = 500, tTotalWait_ms = 2000, tLatency_ms = tTotalWait_ms + 5000;
     protected int nPlayers = 2, nMessages = 1, nIter, nPoints = 0;
     protected String wordsent = "", wordreceived = "", wordStopper = "ALTO";
     protected ACLMessage sent[], received[], unexpected[], request, emergency;
-    protected String partner = "", partners[];
+    protected String partner = "", partners[], CID;
     protected ArrayList<String> lReceived = new ArrayList(), lSent = new ArrayList(), incidences = new ArrayList();
     protected boolean bSents = false, bReceived = false, exit = false, urgentExit = false, urgentSent = false;
     protected static String cheater = "";
@@ -48,126 +47,20 @@ public class PCDialogical extends LARVADialogicalAgent {
     @Override
     public void setup() {
         super.setup();
-        saveTime();
-        Info(tabs + "Booting");
-        d = new Dictionary();
-        d.load("config/ES.words");
+        Info("Booting");
+        dict = new Dictionary();
+        dict.load("config/ES.words");
         logger.onTabular();
         Modes = new ArrayList();
-    }
-
-    public String findFirstWord() {
-        String wordo;
-        ArrayList<String> words;
-        do {
-            wordo = getWordo(4);
-            words = d.completeWord(wordo, 25);
-        } while (words.size() == 0);
-        return words.get((int) (Math.random() * words.size()));
-    }
-
-    public String findNextWord(String word) {
-        ArrayList<String> words;
-        int n = 3;
-        do {
-            try {
-                words = d.completeWord(word.substring(word.length() - n), 10);
-                if (words.size() > 0) {
-                    return words.get((int) (Math.random() * words.size()));
-                }
-            } catch (Exception ex) {
-
-            }
-            n--;
-        } while (true);
-    }
-
-//    public String findNextWord(String word) {
-//        ArrayList<String> words;
-//        int n = 10, size=0;
-//        String theWord, bestWord="";
-//        do {
-//            try {
-//                words = d.completeWord(word.substring(word.length() - n), 10);
-//                if (words.size() > 0) {
-//                    theWord =words.get((int) (Math.random() * words.size()));
-//                    if (this.checkWords(theWord,word)>size) {
-//                        bestWord=theWord;
-//                        size=this.checkWords(theWord,word);
-//                    }
-//                }
-//            } catch (Exception ex) {
-//
-//            }
-//            n--;
-//        } while (n>0);
-//        return bestWord;
-//    }
-    public int checkWords(String prev, String next) {
-        int res = -1, max = (int) (Math.min(prev.length(), next.length()));
-        for (int i = 0; i < max; i++) {
-            if (prev.endsWith(next.substring(0, i + 1))) {
-                res = i;
-            }
+        if (sd.getOwner().equals(getLocalName())) {
+            Info("I am the owner");
+            tTotalWait_ms += 5000;
         }
-        return res;
+        this.activateSequenceDiagrams();
+        nIter = tTotalWait_ms / tWait_ms;
     }
 
-    public void saveTime() {
-        try {
-            PrintWriter p = new PrintWriter(new FileOutputStream("consumer.txt"));
-            p.println(clock);
-            p.close();
-        } catch (Exception ex) {
-            System.err.println("Exception:: " + ex.toString());
-        }
-    }
-
-    public void readTime() {
-        int read = -1;
-        try {
-            Scanner input = new Scanner(new FileInputStream("producer.txt"));
-            read = input.nextInt();
-            input.close();
-            if (read >= clock) {
-                clock = read;
-            } else {
-                clock--;
-            }
-        } catch (Exception ex) {
-            System.err.println("Exception:: " + ex.toString());
-        }
-    }
-
-    public String doProgress(int value, int max) {
-        String res = "";
-        for (int i = 1; i <= max; i++) {
-            if (i < value) {
-                res += emojis.BLACKSQUARE;
-            } else {
-                res += emojis.WHITESQUARE;
-            }
-        }
-        res += "" + value + "/" + max;
-        return res;
-    }
-
-//    protected void mark() {
-//        if (state == Status.RECEIVING) {
-//            Info(tabs + doProgress(countClock, this.maxClock) + "[" + nmessages + "]");
-//        } else if (state == Status.PREPARING) {
-//            Info(tabs + doProgress(countClock, this.maxClock) + (countClock == maxClock ? "[" + nmessages + "]" : ""));
-//            this.doWait((int) (tLatency_ms * (1 + Math.random() - 0.5)));
-//        } else if (state == Status.PROCESSING) {
-//            Info(tabs + doProgress(countClock, this.maxClock));
-//            this.doWait((int) (tLatency_ms * (1 + Math.random() - 0.5)));
-//        } else if (state == Status.EXIT) {
-//            Info(tabs + doProgress(countClock, this.maxClock) + " X");
-//        } else if (state == Status.WAITING) {
-//            Info(tabs + doProgress(countClock, this.maxClock) + " W");
-//        }
-//    }
-    public String[] getNextPlayer(int n) {
+    public String[] getRivals(int n) {
         ArrayList<String> Players;
         ArrayList<String> next = new ArrayList();
         String mynext;
@@ -184,28 +77,29 @@ public class PCDialogical extends LARVADialogicalAgent {
         return next.toArray(new String[next.size()]);
     }
 
-    public String[] getNextPlayerSwing(int n) {
-        ArrayList<String> Players;
-        OleConfig ocfg = new OleConfig();
-        String configFile = "/resources/config/MarioBrawl.conf";
-        ocfg.loadFile(configFile);
-        OleDialog odPlayers = new OleDialog(null, "Select players");
-        Players = new ArrayList();
-        if (odPlayers.run(ocfg)) {
-            ocfg = odPlayers.getResult();
-            for (String sfield : ocfg.getFieldList()) {
-                if (ocfg.getBoolean(sfield)) {
-                    Players.add(title);
-                }
-            }
-            return Players.toArray(new String[Players.size()]);
-        } else {
-            doExit();
-        }
-        return null;
-    }
-
     public boolean rollDice(double threshold) {
         return Math.random() > threshold;
     }
 }
+
+//    public String[] getNextPlayerSwing(int n) {
+//        ArrayList<String> Players;
+//        OleConfig ocfg = new OleConfig();
+//        String configFile = "/resources/config/MarioBrawl.conf";
+//        ocfg.loadFile(configFile);
+//        OleDialog odPlayers = new OleDialog(null, "Select players");
+//        Players = new ArrayList();
+//        if (odPlayers.run(ocfg)) {
+//            ocfg = odPlayers.getResult();
+//            for (String sfield : ocfg.getFieldList()) {
+//                if (ocfg.getBoolean(sfield)) {
+//                    Players.add(title);
+//                }
+//            }
+//            return Players.toArray(new String[Players.size()]);
+//        } else {
+//            doExit();
+//        }
+//        return null;
+//    }
+//

@@ -10,9 +10,10 @@ import Sequential.WordFollower;
 import Centralized.WordProducer;
 import Centralized.WordConsumer;
 import Centralized.ProductionController;
-import Dialogical.OpenCheater;
 import Dialogical.OpenWordPlayer;
-import Dialogical.BlockingWordPlayer;
+import DialogicalParameter.POpenCheater;
+import DialogicalParameter.POpenWordPlayer;
+import DialogicalParameter.PBlockingWordPlayer;
 import appboot.JADEBoot;
 import appboot.LARVABoot;
 import crypto.Keygen;
@@ -27,14 +28,14 @@ public class main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        chainedWordsTTY();
-        chainedWordsX();
-//        chainedWordsXQueue();
-//    sequentialWordsX();
-//        NetworkWordsX();
+//        sequentialTTY();
+//        sequentialX();
+//        centralizedX();
+//        pureDialogicalX();
+        hybridDialogicalX();
     }
 
-    public static void chainedWordsTTY() {
+    public static void sequentialTTY() {
         JADEBoot _console;
         _console = new JADEBoot();
         _console.Boot("localhost", 1099);
@@ -44,7 +45,7 @@ public class main {
 
     }
 
-    public static void chainedWordsX() {
+    public static void sequentialX() {
         LARVABoot _console;
         _console = new LARVABoot();
         _console.Boot("localhost", 1099);
@@ -54,26 +55,43 @@ public class main {
 
     }
 
-    public static void NetworkWordsX() {
-        LARVABoot _console;
-        _console = new LARVABoot();
-        _console.Boot("localhost", 1099);
-        for (int i = 0; i < 2; i++) {
-            _console.launchAgent("" + i, OpenWordPlayer.class);
-        }
-        _console.launchAgent("C", OpenCheater.class);
-        _console.launchAgent("B", BlockingWordPlayer.class);
-        _console.WaitToShutDown();
-
-    }
-
-    public static void sequentialWordsX() {
+    public static void centralizedX() {
         LARVABoot _console;
         _console = new LARVABoot(LARVABoot.LIGHT);
         _console.Boot("localhost", 1099);
         _console.launchAgent("Trinity", ProductionController.class);
         _console.launchAgent("Neo", WordConsumer.class);
         _console.launchAgent("Smith", WordProducer.class);
+        _console.WaitToShutDown();
+
+    }
+
+    public static void pureDialogicalX() {
+        LARVABoot _console;
+        _console = new LARVABoot();
+        _console.Boot("localhost", 1099);
+        for (int i = 0; i < 3; i++) {
+            _console.launchAgent("" + i, OpenWordPlayer.class);
+        }
+        _console.WaitToShutDown();
+
+    }
+
+    public static void hybridDialogicalX() {
+        LARVABoot _console;
+        _console = new LARVABoot();
+        _console.Boot("localhost", 1099);
+        int nblocking=1, nopen=1, ncheat=1;
+        //
+        for (int i = 0; i < nopen; i++) {
+            _console.launchAgent("" + i, POpenWordPlayer.class);
+        }
+        for (int i = 0; i < nblocking; i++) {
+            _console.launchAgent("B"+i, PBlockingWordPlayer.class);
+        }
+        for (int i = 0; i < ncheat; i++) {
+            _console.launchAgent("C"+i, POpenCheater.class);
+        }
         _console.WaitToShutDown();
 
     }
