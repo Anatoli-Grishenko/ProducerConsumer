@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Sequential;
+package CentralizedDialogue;
 
-import Centralized.PCNonDialogical;
+import First.PCNonDialogical;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 
@@ -13,9 +13,9 @@ import jade.lang.acl.ACLMessage;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class WordStarter extends PCNonDialogical {
+public class WordProducer extends PCNonDialogical {
 
-    String word = "";
+    String word;
 
     @Override
     public void setup() {
@@ -23,6 +23,10 @@ public class WordStarter extends PCNonDialogical {
         super.setup();
         // Who is the receiver of the first word
         receiver = "Neo";
+        // Minimum time to wait (ms) before sending the next word
+        tLatency_ms = 100;
+        word = "";
+        logger.offEcho();
         // Randomly generate first word
         word = dict.findFirstWord();
     }
@@ -33,27 +37,34 @@ public class WordStarter extends PCNonDialogical {
         outbox = new ACLMessage();
         outbox.setSender(getAID());
         outbox.addReceiver(new AID(receiver, AID.ISLOCALNAME));
-        outbox.setContent(word);
+        outbox.addReceiver(new AID(controller, AID.ISLOCALNAME));
+        outbox.setContent("+" + word);
         // this.send(outbox) would also work,  
         // but it does not keep record of sent/received messages 
         // nor allow (auto) sequence diagrams        
         this.LARVAsend(outbox);
         Info("Says : " + word);
+        this.saveSequenceDiagram("tmp.seqd");
         // If it sent "STOP", then ends
-        if (word.equals(wordStopper)) {
+        if (word.equals(stopper)) {
             doExit();
         } else {
-            // Waits for the answer            
-            inbox = this.LARVAblockingReceive();
-            Info("Gets: " + inbox.getContent());
+            // Wait for the buffer to be free
+            do {
+                inbox = this.LARVAblockingReceive();
+            } while (!inbox.getContent().startsWith("ACCEPT") &&
+                    !inbox.getContent().startsWith("RESUME"));
+            // Waits for the next word            
+            this.clock = tLatency_ms + (int) (Math.random() * tLatency_ms);
+            Info("Wating " + clock + " ms to the next word");
+            this.LARVAwait(clock);
             // Randomly interrupts the game and stops.
             // If it receives the same word that was set, it stops
-            if (Math.random() > 0.8 || inbox.getContent().equals(word)) {
-                word = wordStopper;
+            if (Math.random() > 0.8 && this.getNCycles()>6) {
+                word = stopper;
             } else {
-                word = dict.findNextWord(inbox.getContent());
+                word = dict.findFirstWord();
             }
         }
     }
-
 }

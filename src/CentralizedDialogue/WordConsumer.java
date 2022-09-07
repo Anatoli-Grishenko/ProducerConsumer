@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Centralized;
+package CentralizedDialogue;
 
+import First.PCNonDialogical;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 

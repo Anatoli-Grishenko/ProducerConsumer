@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Centralized;
+package CentralizedDialogue;
 
+import First.PCNonDialogical;
 import console.Console;
 import static console.Console.defclearScreen;
 import jade.lang.acl.ACLMessage;
@@ -21,7 +22,7 @@ public class ProductionController extends PCNonDialogical {
     String word;
     Console tty;
     ACLMessage producer;
-    boolean useTTY = true;
+    boolean useTTY = false;
 
     @Override
     public void setup() {
@@ -37,6 +38,7 @@ public class ProductionController extends PCNonDialogical {
             tty = new Console("Enchained words", 60, 80, 10);
             tty.setCursorOff();
         }
+        this.openXUITTY();
         printStatus();
     }
 
@@ -83,35 +85,60 @@ public class ProductionController extends PCNonDialogical {
     }
 
     public void printStatus() {
-        if (useTTY) {
-            tty.clearScreen();
-            tty.setCursorXY(1, 1);
-            tty.println("Producer");
-            tty.setCursorXY(20, 1);
-            tty.println("Queue (" + MAXPROD + ")");
-            tty.setCursorXY(40, 1);
-            tty.println("Consumer");
-            for (int i = 0; i < produced.size(); i++) {
-                tty.setCursorXY(1, 2 + i);
-                tty.print("│ " + produced.get(i));
-            }
-            for (int i = 0; i < this.MAXPROD; i++) {
-                tty.setCursorXY(20, 2 + i);
-                tty.print("│ ");
-                if (i < words.size()) {
-                    tty.print(words.get(i));
-                }
-            }
-            for (int i = 0; i < consumed.size(); i++) {
-                tty.setCursorXY(40, 2 + i);
-                tty.print("│ " + consumed.get(i));
-            }
-        } else {
-            Info("\n\nProducer:\t" + produced.toString()
-                    + "\nQueue (" + MAXPROD + "):\t" + words.toString()
-                    + "\nConsumer:\t" + consumed.toString() + "\n\n");
+        xuitty.clearScreen();
+        xuitty.setCursorXY(1, 1);
+        xuitty.println("Producer");
+        xuitty.setCursorXY(20, 1);
+        xuitty.println("Queue (" + MAXPROD + ")");
+        xuitty.setCursorXY(40, 1);
+        xuitty.println("Consumer");
+        for (int i = 0; i < produced.size(); i++) {
+            xuitty.setCursorXY(1, 2 + i);
+            xuitty.print("│ " + produced.get(i));
         }
+        for (int i = 0; i < this.MAXPROD; i++) {
+            xuitty.setCursorXY(20, 2 + i);
+            xuitty.print("│ ");
+            if (i < words.size()) {
+                xuitty.print(words.get(i));
+            }
+        }
+        for (int i = 0; i < consumed.size(); i++) {
+            xuitty.setCursorXY(40, 2 + i);
+            xuitty.print("│ " + consumed.get(i));
+        }
+        xuitty.render();
     }
+//    public void printStatus() {
+//        if (useTTY) {
+//            tty.clearScreen();
+//            tty.setCursorXY(1, 1);
+//            tty.println("Producer");
+//            tty.setCursorXY(20, 1);
+//            tty.println("Queue (" + MAXPROD + ")");
+//            tty.setCursorXY(40, 1);
+//            tty.println("Consumer");
+//            for (int i = 0; i < produced.size(); i++) {
+//                tty.setCursorXY(1, 2 + i);
+//                tty.print("│ " + produced.get(i));
+//            }
+//            for (int i = 0; i < this.MAXPROD; i++) {
+//                tty.setCursorXY(20, 2 + i);
+//                tty.print("│ ");
+//                if (i < words.size()) {
+//                    tty.print(words.get(i));
+//                }
+//            }
+//            for (int i = 0; i < consumed.size(); i++) {
+//                tty.setCursorXY(40, 2 + i);
+//                tty.print("│ " + consumed.get(i));
+//            }
+//        } else {
+//            Info("\n\nProducer:\t" + produced.toString()
+//                    + "\nQueue (" + MAXPROD + "):\t" + words.toString()
+//                    + "\nConsumer:\t" + consumed.toString() + "\n\n");
+//        }
+//    }
 
     @Override
     public void takeDown() {

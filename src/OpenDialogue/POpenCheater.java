@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DialogicalParameter;
+package OpenDialogue;
 
-import DialogicalParameter.POpenWordPlayer;
+import OpenDialogue.POpenWordPlayer;
 import data.Transform;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
@@ -22,10 +22,13 @@ public class POpenCheater extends POpenWordPlayer {
     @Override
     public void setup() {
         // Setup higher classes
+//        Modes.add(MODE.HIDDEN);
         super.setup();
-        Modes.add(MODE.JUSTANSWER);
+        nPlayers=1;
+        this.selectPartners();
+//        Modes.add(MODE.JUSTANSWER);
 //         Modes.add(MODE.RECURSIVE);
-        Modes.remove(MODE.POLITE);
+//        Modes.remove(MODE.POLITE);
 //        Modes.add(MODE.MISTAKES);
 //        Modes.add(MODE.CHEAT);
 //        Modes.add(MODE.URGENCY);
@@ -38,49 +41,50 @@ public class POpenCheater extends POpenWordPlayer {
         }
 //        this.logger.offEcho();
         this.logger.onEcho();
+
     }
+
+//    @Override
+//    public void selectPartners() {
+//        partners = getRivals(nPlayers);
+//        Info("I will play with " + Transform.toArrayList(partners).toString());
+//    }
+
+//    public void sendStop() {
+//        if (urgentSent) {
+//            return;
+//        }
+//        wordSent = wordStopper;
+//        emergency = new ACLMessage(ACLMessage.REQUEST);
+//        emergency.setSender(getAID());
+//        for (String p : this.DFGetAllProvidersOf("WORDPLAYER")) {
+//            if (this.AMSIsConnected(p) && !p.equals(getLocalName())) {
+//                emergency.addReceiver(new AID(p, AID.ISLOCALNAME));
+//            }
+//        }
+//        if (ACLMessageTools.getAllReceivers(emergency).length() > 0) {
+//            emergency.setContent(wordSent);
+//            emergency.setReplyWith(wordSent);
+//            emergency.setInReplyTo(wordSent);
+//            emergency.setConversationId(crypto.Keygen.getHexaKey());
+//            this.Dialogue(emergency);
+//            urgentSent = true;
+//            Modes.remove(MODE.URGENCY);
+//            urgentExit = true;
+//            incidences.add("Asked to stop");
+//        }
+//    }
 
     @Override
-    public void selectPartners() {
-        partners = getRivals(nPlayers);
-        Info("I will play with " + Transform.toArrayList(partners).toString());
-    }
-
-    public void sendStop() {
-        if (urgentSent) {
-            return;
-        }
-        wordsent = wordStopper;
-        emergency = new ACLMessage(ACLMessage.REQUEST);
-        emergency.setSender(getAID());
-        for (String p : this.DFGetAllProvidersOf("WORDPLAYER")) {
-            if (this.AMSIsConnected(p) && !p.equals(getLocalName())) {
-                emergency.addReceiver(new AID(p, AID.ISLOCALNAME));
-            }
-        }
-        if (ACLMessageTools.getAllReceivers(emergency).length() > 0) {
-            emergency.setContent(wordsent);
-            emergency.setReplyWith(wordsent);
-            emergency.setInReplyTo(wordsent);
-            emergency.setConversationId(crypto.Keygen.getHexaKey());
-            this.LARVADialogue(emergency);
-            urgentSent = true;
-            Modes.remove(MODE.URGENCY);
-            urgentExit = true;
-            incidences.add("Asked to stop");
-        }
-    }
-
-    @Override
-    public void processUnexpected() {
-        if (this.LARVAhasUnexpectedRequests()) {
+    public void processRequests() {
+        if (this.hasExtRequests()) {
             nIter = tTotalWait_ms / tWait_ms;
             Info("Checking for unexpected request");
             Info("Processing unexpected");
-            received = this.LARVAqueryUnexpectedRequests();
+            received = this.getExtRequests();
             for (ACLMessage m : received) {
                 if (m.getPerformative() == ACLMessage.QUERY_IF) {
-                    if (Modes.contains(MODE.DELAYANSWERS) && rollDice(0.8)) {
+                    if (Modes.contains(MODE.DELAYANSWERS) && rollDice(0.5)) {
                         int milis = (int) (Math.random() * tLatency_ms);
                         this.LARVAwait(milis);
                         incidences.add("Answered " + milis + "ms late");
@@ -120,16 +124,16 @@ public class POpenCheater extends POpenWordPlayer {
                                 incidences.add("Sent a bad PERF");
                             }
                         }
-                        this.LARVADialogue(outbox);
-//                    this.LARVAcloseUtterance(m);
+                        this.Dialogue(outbox);
+//                    this.closeUtterance(m);
                     } else {
-                        this.LARVAcloseUtterance(m);
+                        this.closeUtterance(m);
                         incidences.add("I did not answer");
-//                    this.LARVAcloseUtterance(m);
+//                    this.closeUtterance(m);
                     }
                 } else {
                     this.NotUnderstood(m);
-//                this.LARVAcloseUtterance(m);
+//                this.closeUtterance(m);
                 }
             }
         }
@@ -138,9 +142,9 @@ public class POpenCheater extends POpenWordPlayer {
     @Override
     public void Execute() {
         super.Execute();
-        if (Modes.contains(MODE.URGENCY) && rollDice(0.9)) {
-            sendStop();
-        }
+//        if (Modes.contains(MODE.URGENCY) && rollDice(0.9)) {
+//            sendStop();
+//        }
     }
 
 }

@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Sequential;
+package OpenDialogue;
 
-import Centralized.PCNonDialogical;
+import Dialogical.PCDialogical;
+import First.PCNonDialogical;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 
@@ -13,10 +14,10 @@ import jade.lang.acl.ACLMessage;
  *
  * @author Anatoli Grishenko <Anatoli.Grishenko@gmail.com>
  */
-public class WordFollower extends PCNonDialogical {
-
+public class OWordFollower extends PCDialogical {
+    
     String word = "";
-
+    
     @Override
     public void setup() {
         // Setup higher classes
@@ -24,34 +25,39 @@ public class WordFollower extends PCNonDialogical {
         // Do not need to know the receiver, just answer
         //receiver = "Smith";
     }
-
+    
     @Override
     public void Execute() {
+        Info(this.toString());
         // It starts listening to new messages
-        inbox = this.LARVAblockingReceive();
+        if (inbox == null) {
+            inbox = this.blockingDialogue().get(0);
+        } 
         word = inbox.getContent();
         Info("Gets: " + word);
-        // If it is STOP, the stops the llop and terminate
+        // If it is STOP, the stops then terminate
         if (word.equals(wordStopper)) {
             doExit();
         } else {
-        // Otherwise, find the chained word and continue
+            // Otherwise, find the chained word and continue
             word = dict.findNextWord(word);
             // Does not need to buld a new message. Instead, it
             // answers to the previous one
             outbox = inbox.createReply();
+            outbox.setPerformative(ACLMessage.QUERY_IF);
             outbox.setContent(word);
-            this.LARVAsend(outbox);
+            outbox.setConversationId("UNIQUE");
+            outbox.setReplyWith(word);
+            inbox = this.blockingDialogue(outbox).get(0);
             Info("Says : " + word);
         }
-
+        
     }
     
     @Override
     public void takeDown() {
         super.takeDown();
-        Info("SEQUENCE DIAGRAM:\n"+this.getSequenceDiagram());
+        Info("SEQUENCE DIAGRAM:\n" + this.getSequenceDiagram());
     }
-
     
 }
