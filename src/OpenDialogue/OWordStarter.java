@@ -48,14 +48,15 @@ public class OWordStarter extends PCDialogical {
         // Select the performative that best adapts to the intention
         if (word.equals(wordStopper)) {
             outbox.setPerformative(ACLMessage.INFORM);
-            this.blockingDialogue(outbox);
+            this.Dialogue(outbox);
             doExit();
         } else {
             outbox.setPerformative(ACLMessage.QUERY_IF);
             inbox = this.blockingDialogue(outbox).get(0);
 //            inbox = this.waitAnswersTo(outbox).get(0);
             Info("Gets: " + inbox.getContent());
-            if (this.getNCycles() > 1 && this.getNCycles() < 5 && (Math.random() > 0.8 || inbox.getContent().equals(word))) {
+            if (this.getNCycles() > 1 && 
+                    (this.getNCycles() < 5 || (Math.random() > 0.8 || inbox.getContent().equals(word)))) {
                 word = wordStopper;
             } else {
                 word = dict.findNextWord(inbox.getContent());
