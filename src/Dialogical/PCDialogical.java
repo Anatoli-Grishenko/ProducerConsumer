@@ -73,8 +73,11 @@ public class PCDialogical extends LARVADialogicalAgent {
             Info("I am the owner");
             tTotalWait_ms += 5000;
         }
-        this.activateSequenceDiagrams();
+//        this.activateSequenceDiagrams();
+//        this.setContinuousSequenceDiagram(false);
         nIter = tTotalWait_ms / tWait_ms;
+        this.activateSequenceDiagrams();
+        this.setContinuousSequenceDiagram(false);
     }
 
     public String[] getRivals(int n) {

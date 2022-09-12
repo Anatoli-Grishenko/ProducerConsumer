@@ -30,7 +30,7 @@ public class POpenWordPlayer extends PCDialogical {
         } else {
             this.LARVAwait(50);
         }
-        this.activateSequenceDiagrams();
+//        this.activateSequenceDiagrams();
         if (sd.getOwner().equals(getLocalName())) {
             Info("I am the owner");
             tTotalWait_ms += 5000;

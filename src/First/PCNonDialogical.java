@@ -46,7 +46,7 @@ public class PCNonDialogical extends LARVAFirstAgent {
         dict.load("config/ES.words");
         logger.onEcho();
         logger.onTabular();
-        this.activateSequenceDiagrams();
+//        this.activateSequenceDiagrams();
         alInbox = new ArrayList();
         alUnexpected = new ArrayList();
         alIgnored = new ArrayList();
