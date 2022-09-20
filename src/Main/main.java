@@ -18,23 +18,23 @@ import OpenDialogue.POpenWordPlayer;
 import OpenDialogue.PBlockingWordPlayer;
 import appboot.JADEBoot;
 import appboot.LARVABoot;
-import crypto.Keygen;
+import static crypto.Keygen.getHexaKey;
 
 /**
  *
  * @author lcv
  */
 public class main {
-
+    static String suffix=getHexaKey(4);
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        main1();
+//        main1();
 //        main2();
 //        main3();
 //        main4();
-//        main5();
+        main5();
 //        main6();
     }
 
@@ -42,8 +42,8 @@ public class main {
         JADEBoot _console;
         _console = new JADEBoot();
         _console.Boot("localhost", 1099);
-        _console.launchAgent("Neo", WordFollower.class);
-        _console.launchAgent("Smith", WordStarter.class);
+        _console.launchAgent("Neo"+suffix, WordFollower.class);
+        _console.launchAgent("Smith"+suffix, WordStarter.class);
         _console.WaitToShutDown();
 
     }
@@ -52,8 +52,8 @@ public class main {
         LARVABoot _console;
         _console = new LARVABoot();
         _console.Boot("localhost", 1099);
-        _console.launchAgent("Neo", WordFollower.class);
-        _console.launchAgent("Smith", WordStarter.class);
+        _console.launchAgent("Neo"+suffix, WordFollower.class);
+        _console.launchAgent("Smith"+suffix, WordStarter.class);
         _console.WaitToShutDown();
 
     }
@@ -62,9 +62,9 @@ public class main {
         LARVABoot _console;
         _console = new LARVABoot();
         _console.Boot("localhost", 1099);
-        _console.launchAgent("Trinity", ProductionController.class);
-        _console.launchAgent("Neo", WordConsumer.class);
-        _console.launchAgent("Smith", WordProducer.class);
+        _console.launchAgent("Trinity"+suffix, ProductionController.class);
+        _console.launchAgent("Neo"+suffix, WordConsumer.class);
+        _console.launchAgent("Smith"+suffix, WordProducer.class);
         _console.WaitToShutDown();
 
     }
@@ -73,8 +73,8 @@ public class main {
         LARVABoot _console;
         _console = new LARVABoot();
         _console.Boot("localhost", 1099);
-        _console.launchAgent("Neo", OWordFollower.class);
-        _console.launchAgent("Smith", OWordStarter.class);
+        _console.launchAgent("Neo"+suffix, OWordFollower.class);
+        _console.launchAgent("Smith"+suffix, OWordStarter.class);
         _console.WaitToShutDown();
 
     }
@@ -85,7 +85,7 @@ public class main {
         _console = new LARVABoot();
         _console.Boot("localhost", 1099);
         for (int i = 0; i < nAgents; i++) {
-            _console.launchAgent("" + i, OpenWordPlayer.class);
+            _console.launchAgent(suffix + i, OpenWordPlayer.class);
         }
         _console.WaitToShutDown();
 
@@ -98,13 +98,13 @@ public class main {
         int nblocking = 1, nopen = 1, ncheat = 1;
         //
         for (int i = 0; i < nopen; i++) {
-            _console.launchAgent("" + i, POpenWordPlayer.class);
+            _console.launchAgent(suffix + i, POpenWordPlayer.class);
         }
         for (int i = 0; i < nblocking; i++) {
-            _console.launchAgent("B" + i, PBlockingWordPlayer.class);
+            _console.launchAgent(suffix+"B" + i, PBlockingWordPlayer.class);
         }
         for (int i = 0; i < ncheat; i++) {
-            _console.launchAgent("C" + i, POpenCheater.class);
+            _console.launchAgent(suffix+"C" + i, POpenCheater.class);
         }
         _console.WaitToShutDown();
 

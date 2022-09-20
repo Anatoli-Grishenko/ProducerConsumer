@@ -24,7 +24,7 @@ public class PCNonDialogical extends LARVAFirstAgent {
 
     protected ArrayList<MODE> Modes;
     protected Dictionary dict;
-    protected String message = "", tabs = "", receiver, stopper = "STOP", controller = "Trinity";
+    protected String message = "", tabs = "", receiver, stopper = "STOP", controller;
     protected ACLMessage _inbox, _outbox, lastRequest;
     protected int tDeadline_s = 60, tWait_ms = 500, tTotalWait_ms = 2000, tLatency_ms = tTotalWait_ms + 5000;
     protected int nPlayers = 2, nMessages = 1, nIter, nPoints = 0, nAnswers;
@@ -50,6 +50,7 @@ public class PCNonDialogical extends LARVAFirstAgent {
         alInbox = new ArrayList();
         alUnexpected = new ArrayList();
         alIgnored = new ArrayList();
+        controller="Trinity"+getLocalName().substring(getLocalName().length()-4,getLocalName().length());
     }
 
 //    public void checkAllMessages(ACLMessage request) {

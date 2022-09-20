@@ -22,7 +22,7 @@ public class WordProducer extends PCNonDialogical {
         // Setup higher classes
         super.setup();
         // Who is the receiver of the first word
-        receiver = "Neo";
+        receiver = "Neo"+getLocalName().substring(getLocalName().length()-4,getLocalName().length());
         // Minimum time to wait (ms) before sending the next word
         tLatency_ms = 100;
         word = "";
