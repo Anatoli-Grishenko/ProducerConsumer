@@ -52,7 +52,8 @@ public class main {
     public static void main2() {
         LARVABoot _console;
         _console = new LARVABoot();
-        _console.Boot("localhost", 1099);
+//        _console.Boot("localhost", 1099);
+        _console.Boot("isg2.ugr.es", 1099);
         _console.launchAgent("Neo-"+suffix, WordFollower.class);
         _console.launchAgent("Smith-"+suffix, WordStarter.class);
         _console.WaitToShutDown();
@@ -62,7 +63,8 @@ public class main {
     public static void main3() {
         LARVABoot _console;
         _console = new LARVABoot();
-        _console.Boot("localhost", 1099);
+//        _console.Boot("localhost", 1099);
+        _console.Boot("isg2.ugr.es", 1099);
         _console.launchAgent("Trinity-"+suffix, ProductionController.class);
         _console.launchAgent("Neo-"+suffix, WordConsumer.class);
         _console.launchAgent("Smith-"+suffix, WordProducer.class);
@@ -73,7 +75,8 @@ public class main {
     public static void main4() {
         LARVABoot _console;
         _console = new LARVABoot();
-        _console.Boot("localhost", 1099);
+//        _console.Boot("localhost", 1099);
+        _console.Boot("isg2.ugr.es", 1099);
         _console.launchAgent("Neo-"+suffix, OWordFollower.class);
         _console.launchAgent("Smith-"+suffix, OWordStarter.class);
         _console.WaitToShutDown();
@@ -84,7 +87,8 @@ public class main {
         LARVABoot _console;
         int nAgents=3;
         _console = new LARVABoot();
-        _console.Boot("localhost", 1099);
+//        _console.Boot("localhost", 1099);
+        _console.Boot("isg2.ugr.es", 1099);
         for (int i = 0; i < nAgents; i++) {
             _console.launchAgent(suffix+"-" + i, OpenWordPlayer.class);
         }
@@ -95,7 +99,8 @@ public class main {
     public static void main6() {
         LARVABoot _console;
         _console = new LARVABoot();
-        _console.Boot("localhost", 1099);
+//        _console.Boot("localhost", 1099);
+        _console.Boot("isg2.ugr.es", 1099);
         int nblocking = 1, nopen = 1, ncheat = 1;
         //
         for (int i = 0; i < nopen; i++) {
