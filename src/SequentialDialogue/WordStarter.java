@@ -22,7 +22,7 @@ public class WordStarter extends PCNonDialogical {
         // Setup higher classes
         super.setup();
         // Who is the receiver of the first word
-        receiver = "Neo"+getLocalName().substring(getLocalName().length()-4,getLocalName().length());
+        receiver = "Neo-"+getLocalName().substring(getLocalName().length()-4,getLocalName().length());
         // Randomly generate first word
         word = dict.findFirstWord();
     }
