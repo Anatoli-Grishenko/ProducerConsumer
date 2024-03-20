@@ -1,13 +1,35 @@
-{"date":"2024-03-20 12:38:35:635","record":{"agent":"Luis_Castillo_Vidal","info":"Waiting for messages"}}
-{"date":"2024-03-20 12:38:35:635","record":{"agent":"Smith-F05C","info":"SETUP"}}
-{"date":"2024-03-20 12:38:35:637","record":{"agent":"Luis_Castillo_Vidal","info":"Confirming birth of agent Smith-F05C"}}
-{"date":"2024-03-20 12:38:35:711","record":{"agent":"Smith-F05C","info":"Paused"}}
-{"date":"2024-03-20 12:39:24:951","record":{"agent":"Smith-F05C","info":"Says : GRUMETE"}}
-{"date":"2024-03-20 12:39:24:959","record":{"agent":"Smith-F05C","info":"Sending ...  ||PFM|NOT-UNDERSTOOD||SND|Smith-F05C||RCV|Neo-F05C ||CNT|GRUMETE||RPW|8533||"}}
-{"date":"2024-03-20 12:39:24:961","record":{"agent":"Smith-F05C","info":"Waiting for messages"}}
-{"date":"2024-03-20 12:39:25:451","record":{"agent":"Neo-F05C","info":"Waiting for messages"}}
-{"date":"2024-03-20 12:39:25:453","record":{"agent":"Neo-F05C","info":"Receiving ... ||PFM|NOT-UNDERSTOOD||SND|Smith-F05C||RCV|Neo-F05C ||CNT|GRUMETE||RPW|8533||"}}
-{"date":"2024-03-20 12:39:25:454","record":{"agent":"Neo-F05C","info":"Gets: GRUMETE"}}
-{"date":"2024-03-20 12:39:25:466","record":{"agent":"Neo-F05C","info":"Sending ...  ||PFM|NOT-UNDERSTOOD||SND|Neo-F05C||RCV|Smith-F05C ||CNT|EFECTIVIDAD||RPW|Smith-F05C@CAJAR1710934765464||IRT|8533||"}}
-{"date":"2024-03-20 12:39:25:467","record":{"agent":"Neo-F05C","info":"Says : EFECTIVIDAD"}}
-{"date":"2024-03-20 12:39:25:951","record":{"agent":"Luis_Castillo_Vidal","info":"takeDown"}}
+{"date":"2024-03-20 13:10:04:977","record":{"agent":"Luis_Castillo_Vidal","info":"Waiting for messages"}}
+{"date":"2024-03-20 13:10:04:977","record":{"agent":"Smith-CB64","info":"SETUP"}}
+{"date":"2024-03-20 13:10:04:978","record":{"agent":"Luis_Castillo_Vidal","info":"Confirming birth of agent Smith-CB64"}}
+{"date":"2024-03-20 13:10:05:044","record":{"agent":"Smith-CB64","info":"Paused"}}
+{"date":"2024-03-20 13:10:07:177","record":{"agent":"Neo-CB64","info":"Waiting for messages"}}
+{"date":"2024-03-20 13:10:13:237","record":{"agent":"Smith-CB64","info":"Says : FORMAR"}}
+{"date":"2024-03-20 13:10:13:254","record":{"agent":"Smith-CB64","info":"Sending ...  ||PFM|NOT-UNDERSTOOD||SND|Smith-CB64||RCV|Neo-CB64 ||CNT|FORMAR||RPW|9113||"}}
+{"date":"2024-03-20 13:10:13:255","record":{"agent":"Neo-CB64","info":"Receiving ... ||PFM|NOT-UNDERSTOOD||SND|Smith-CB64||RCV|Neo-CB64 ||CNT|FORMAR||RPW|9113||"}}
+{"date":"2024-03-20 13:10:13:256","record":{"agent":"Smith-CB64","info":"Waiting for messages"}}
+{"date":"2024-03-20 13:10:13:257","record":{"agent":"Neo-CB64","info":"Gets: FORMAR"}}
+{"date":"2024-03-20 13:10:13:265","record":{"agent":"Neo-CB64","info":"Sending ...  ||PFM|NOT-UNDERSTOOD||SND|Neo-CB64||RCV|Smith-CB64 ||CNT|FORMARA||RPW|Smith-CB64@CAJAR1710936613264||IRT|9113||"}}
+{"date":"2024-03-20 13:10:13:266","record":{"agent":"Smith-CB64","info":"Receiving ... ||PFM|NOT-UNDERSTOOD||SND|Neo-CB64||RCV|Smith-CB64 ||CNT|FORMARA||RPW|Smith-CB64@CAJAR1710936613264||IRT|9113||"}}
+{"date":"2024-03-20 13:10:13:266","record":{"agent":"Neo-CB64","info":"Says : FORMARA"}}
+{"date":"2024-03-20 13:10:13:266","record":{"agent":"Smith-CB64","info":"Gets: FORMARA"}}
+{"date":"2024-03-20 13:10:14:267","record":{"agent":"Neo-CB64","info":"Waiting for messages"}}
+{"date":"2024-03-20 13:10:14:271","record":{"agent":"Smith-CB64","info":"Paused"}}
+{"date":"2024-03-20 13:10:21:210","record":{"agent":"Smith-CB64","info":"Says : MARAVILLEMOS"}}
+{"date":"2024-03-20 13:10:21:213","record":{"agent":"Smith-CB64","info":"Sending ...  ||PFM|NOT-UNDERSTOOD||SND|Smith-CB64||RCV|Neo-CB64 ||CNT|MARAVILLEMOS||RPW|FB62||"}}
+{"date":"2024-03-20 13:10:21:214","record":{"agent":"Neo-CB64","info":"Receiving ... ||PFM|NOT-UNDERSTOOD||SND|Smith-CB64||RCV|Neo-CB64 ||CNT|MARAVILLEMOS||RPW|FB62||"}}
+{"date":"2024-03-20 13:10:21:215","record":{"agent":"Neo-CB64","info":"Gets: MARAVILLEMOS"}}
+{"date":"2024-03-20 13:10:21:215","record":{"agent":"Smith-CB64","info":"Waiting for messages"}}
+{"date":"2024-03-20 13:10:21:220","record":{"agent":"Neo-CB64","info":"Sending ...  ||PFM|NOT-UNDERSTOOD||SND|Neo-CB64||RCV|Smith-CB64 ||CNT|SOSTUVISTEIS||RPW|Smith-CB64@CAJAR1710936621219||IRT|FB62||"}}
+{"date":"2024-03-20 13:10:21:220","record":{"agent":"Smith-CB64","info":"Receiving ... ||PFM|NOT-UNDERSTOOD||SND|Neo-CB64||RCV|Smith-CB64 ||CNT|SOSTUVISTEIS||RPW|Smith-CB64@CAJAR1710936621219||IRT|FB62||"}}
+{"date":"2024-03-20 13:10:21:220","record":{"agent":"Neo-CB64","info":"Says : SOSTUVISTEIS"}}
+{"date":"2024-03-20 13:10:21:220","record":{"agent":"Smith-CB64","info":"Gets: SOSTUVISTEIS"}}
+{"date":"2024-03-20 13:10:22:221","record":{"agent":"Neo-CB64","info":"Waiting for messages"}}
+{"date":"2024-03-20 13:10:22:221","record":{"agent":"Smith-CB64","info":"Paused"}}
+{"date":"2024-03-20 13:10:48:441","record":{"agent":"Smith-CB64","info":"Says : ISRAELITA"}}
+{"date":"2024-03-20 13:10:48:443","record":{"agent":"Smith-CB64","info":"Sending ...  ||PFM|NOT-UNDERSTOOD||SND|Smith-CB64||RCV|Neo-CB64 ||CNT|ISRAELITA||RPW|EE2C||"}}
+{"date":"2024-03-20 13:10:48:444","record":{"agent":"Smith-CB64","info":"Waiting for messages"}}
+{"date":"2024-03-20 13:10:48:464","record":{"agent":"Smith-CB64","info":"Receiving ... ||PFM|FAILURE||SND|ams||RCV|Smith-CB64 ||CNT|( (action ( agent-identifier :name Smith-CB64@CAJAR  :addresses (sequence http://numenor:7778/acc )) (ACLMessage) ) (MTS-error ( agent-identifier :name Neo-CB64@CAJAR ) (internal-error \"Agent not found: getContainerID() failed to find agent Neo-CB64@CAJAR\")) )||RPW|Smith-CB64@CAJAR1710936648463||IRT|EE2C||LAN|fipa-sl||"}}
+{"date":"2024-03-20 13:10:48:464","record":{"agent":"Smith-CB64","info":"Gets: ( (action ( agent-identifier :name Smith-CB64@CAJAR  :addresses (sequence http://numenor:7778/acc )) (ACLMessage) ) (MTS-error ( agent-identifier :name Neo-CB64@CAJAR ) (internal-error \"Agent not found: getContainerID() failed to find agent Neo-CB64@CAJAR\")) )"}}
+{"date":"2024-03-20 13:10:49:469","record":{"agent":"Smith-CB64","info":"Paused"}}
+{"date":"2024-03-20 13:10:51:568","record":{"agent":"Smith-CB64","info":"Says : null"}}
+{"date":"2024-03-20 13:10:51:571","record":{"agent":"Smith-CB64","info":"Sending ...  ||PFM|NOT-UNDERSTOOD||SND|Smith-CB64||RCV|Neo-CB64 ||CNT|||RPW|4495||"}}
