@@ -28,21 +28,22 @@ public class WordFollower extends PCNonDialogical {
     @Override
     public void Execute() {
         // It starts listening to new messages
-        inbox = this.LARVAblockingReceive();
-        word = inbox.getContent();
+        _inbox = this.LARVAblockingReceive();
+        word = _inbox.getContent();
         Info("Gets: " + word);
         // If it is STOP, the stops the llop and terminate
         if (word.equals(wordStopper)) {
-            doExit();
+            Exit();
         } else {
         // Otherwise, find the chained word and continue
             word = dict.findNextWord(word);
             // Does not need to buld a new message. Instead, it
             // answers to the previous one
-            outbox = inbox.createReply();
-            outbox.setContent(word);
-            this.LARVAsend(outbox);
+            _outbox = lCreateReply(_inbox);
+            _outbox.setContent(word);
+            this.LARVAsend(_outbox);
             Info("Says : " + word);
+            LARVAwait(1000);
         }
 
     }
@@ -50,7 +51,7 @@ public class WordFollower extends PCNonDialogical {
     @Override
     public void takeDown() {
         super.takeDown();
-        Info("SEQUENCE DIAGRAM:\n"+this.getSequenceDiagram());
+//        Info("SEQUENCE DIAGRAM:\n"+this.getSequenceDiagram());
     }
 
     

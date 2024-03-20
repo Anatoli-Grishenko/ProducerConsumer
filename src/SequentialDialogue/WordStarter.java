@@ -6,6 +6,7 @@
 package SequentialDialogue;
 
 import First.PCNonDialogical;
+import Messaging.LARVAACLMessage;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 
@@ -22,7 +23,7 @@ public class WordStarter extends PCNonDialogical {
         // Setup higher classes
         super.setup();
         // Who is the receiver of the first word
-        receiver = "Neo-"+getLocalName().substring(getLocalName().length()-4,getLocalName().length());
+        receiver = "Neo-" + getLocalName().substring(getLocalName().length() - 4, getLocalName().length());
         // Randomly generate first word
         word = dict.findFirstWord();
     }
@@ -31,7 +32,7 @@ public class WordStarter extends PCNonDialogical {
     public void Execute() {
         Info("Says : " + word);
         // Generate first ACL message and send it to receiver
-        outbox = new ACLMessage();
+        outbox = new LARVAACLMessage();
         outbox.setSender(getAID());
         outbox.addReceiver(new AID(receiver, AID.ISLOCALNAME));
         outbox.setContent(word);
@@ -41,25 +42,27 @@ public class WordStarter extends PCNonDialogical {
         this.LARVAsend(outbox);
         // If it sent "STOP", then ends
         if (word.equals(wordStopper)) {
-            doExit();
+            Exit();
         } else {
             // Waits for the answer            
             inbox = this.LARVAblockingReceive();
             Info("Gets: " + inbox.getContent());
             // Randomly interrupts the game and stops.
             // If it receives the same word that was set, it stops
-            if (this.getNCycles()>5 && (Math.random() > 0.8 || 
-                    inbox.getContent().equals(word))) {
+            if (this.getAgentMemory().getnCycles() > 5 && (Math.random() > 0.8
+                    || inbox.getContent().equals(word))) {
                 word = wordStopper;
             } else {
                 word = dict.findNextWord(inbox.getContent());
             }
         }
+        LARVAwait(1000);
     }
+
     @Override
     public void takeDown() {
         super.takeDown();
-        Info("SEQUENCE DIAGRAM:\n"+this.getSequenceDiagram());
+//        Info("SEQUENCE DIAGRAM:\n"+this.getSequenceDiagram());
     }
 
 }

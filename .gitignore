@@ -1,0 +1,4 @@
+*.passport
+nbproject/private
+dist/*
+build/*

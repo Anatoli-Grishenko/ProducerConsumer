@@ -1,0 +1,13 @@
+{"date":"2024-03-20 12:38:35:635","record":{"agent":"Luis_Castillo_Vidal","info":"Waiting for messages"}}
+{"date":"2024-03-20 12:38:35:635","record":{"agent":"Smith-F05C","info":"SETUP"}}
+{"date":"2024-03-20 12:38:35:637","record":{"agent":"Luis_Castillo_Vidal","info":"Confirming birth of agent Smith-F05C"}}
+{"date":"2024-03-20 12:38:35:711","record":{"agent":"Smith-F05C","info":"Paused"}}
+{"date":"2024-03-20 12:39:24:951","record":{"agent":"Smith-F05C","info":"Says : GRUMETE"}}
+{"date":"2024-03-20 12:39:24:959","record":{"agent":"Smith-F05C","info":"Sending ...  ||PFM|NOT-UNDERSTOOD||SND|Smith-F05C||RCV|Neo-F05C ||CNT|GRUMETE||RPW|8533||"}}
+{"date":"2024-03-20 12:39:24:961","record":{"agent":"Smith-F05C","info":"Waiting for messages"}}
+{"date":"2024-03-20 12:39:25:451","record":{"agent":"Neo-F05C","info":"Waiting for messages"}}
+{"date":"2024-03-20 12:39:25:453","record":{"agent":"Neo-F05C","info":"Receiving ... ||PFM|NOT-UNDERSTOOD||SND|Smith-F05C||RCV|Neo-F05C ||CNT|GRUMETE||RPW|8533||"}}
+{"date":"2024-03-20 12:39:25:454","record":{"agent":"Neo-F05C","info":"Gets: GRUMETE"}}
+{"date":"2024-03-20 12:39:25:466","record":{"agent":"Neo-F05C","info":"Sending ...  ||PFM|NOT-UNDERSTOOD||SND|Neo-F05C||RCV|Smith-F05C ||CNT|EFECTIVIDAD||RPW|Smith-F05C@CAJAR1710934765464||IRT|8533||"}}
+{"date":"2024-03-20 12:39:25:467","record":{"agent":"Neo-F05C","info":"Says : EFECTIVIDAD"}}
+{"date":"2024-03-20 12:39:25:951","record":{"agent":"Luis_Castillo_Vidal","info":"takeDown"}}

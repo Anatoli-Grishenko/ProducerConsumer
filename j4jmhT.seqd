@@ -1,0 +1,140 @@
+
+|j4jmhT                             |dLgj1b                             
+|                                   |                                   
+|2022-08-17 17:16:24:168            |                                   
+|QUERY-IF                           |                                   
+|CID:65C51577                       |                                   
+|RW:DAIL                            |                                   
+|IRT:                               |                                   
+|CNT:DAIL                           |                                   
+O----------------------------------->                                   
+|                                   |                                   
+|                                   |2022-08-17 17:16:26:657            
+|                                   |QUERY-IF                           
+|                                   |CID:F40F4762                       
+|                                   |RW:KARKAROFF                       
+|                                   |IRT:                               
+|                                   |CNT:KARKAROFF                      
+<-----------------------------------O                                   
+|                                   |                                   
+|                                   |2022-08-17 17:16:26:750            
+|                                   |QUERY-IF                           
+|                                   |CID:65C51577                       
+|                                   |RW:AILETH                          
+|                                   |IRT:DAIL                           
+|                                   |CNT:AILETH                         
+<-----------------------------------O                                   
+|                                   |                                   
+|2022-08-17 17:16:26:860            |                                   
+|QUERY-IF                           |                                   
+|CID:F40F4762                       |                                   
+|RW:OFFENDED                        |                                   
+|IRT:KARKAROFF                      |                                   
+|CNT:OFFENDED                       |                                   
+O----------------------------------->                                   
+|                                   |                                   
+|2022-08-17 17:16:27:003            |                                   
+|QUERY-IF                           |                                   
+|CID:65C51577                       |                                   
+|RW:ETHIOPIAN                       |                                   
+|IRT:AILETH                         |                                   
+|CNT:ETHIOPIAN                      |                                   
+O----------------------------------->                                   
+|                                   |                                   
+|                                   |2022-08-17 17:16:27:037            
+|                                   |QUERY-IF                           
+|                                   |CID:F40F4762                       
+|                                   |RW:DEDICATION                      
+|                                   |IRT:OFFENDED                       
+|                                   |CNT:DEDICATION                     
+<-----------------------------------O                                   
+|                                   |                                   
+|                                   |2022-08-17 17:16:27:138            
+|                                   |QUERY-IF                           
+|                                   |CID:65C51577                       
+|                                   |RW:ANAK                            
+|                                   |IRT:ETHIOPIAN                      
+|                                   |CNT:ANAK                           
+<-----------------------------------O                                   
+|                                   |                                   
+|2022-08-17 17:16:27:282            |                                   
+|QUERY-IF                           |                                   
+|CID:F40F4762                       |                                   
+|RW:IONIAN                          |                                   
+|IRT:DEDICATION                     |                                   
+|CNT:IONIAN                         |                                   
+O----------------------------------->                                   
+|                                   |                                   
+|2022-08-17 17:16:27:443            |                                   
+|QUERY-IF                           |                                   
+|CID:65C51577                       |                                   
+|RW:NAKEDNESS                       |                                   
+|IRT:ANAK                           |                                   
+|CNT:NAKEDNESS                      |                                   
+O----------------------------------->                                   
+|                                   |                                   
+|                                   |2022-08-17 17:16:28:066            
+|                                   |QUERY-IF                           
+|                                   |CID:F40F4762                       
+|                                   |RW:ANALOGOUS                       
+|                                   |IRT:IONIAN                         
+|                                   |CNT:ANALOGOUS                      
+<-----------------------------------O                                   
+|                                   |                                   
+|                                   |2022-08-17 17:16:28:067            
+|                                   |QUERY-IF                           
+|                                   |CID:65C51577                       
+|                                   |RW:ESSAYS                          
+|                                   |IRT:NAKEDNESS                      
+|                                   |CNT:ESSAYS                         
+<-----------------------------------O                                   
+|                                   |                                   
+|2022-08-17 17:16:28:171            |                                   
+|QUERY-IF                           |                                   
+|CID:F40F4762                       |                                   
+|RW:OUSTING                         |                                   
+|IRT:ANALOGOUS                      |                                   
+|CNT:OUSTING                        |                                   
+O----------------------------------->                                   
+|                                   |                                   
+|2022-08-17 17:16:28:287            |                                   
+|QUERY-IF                           |                                   
+|CID:65C51577                       |                                   
+|RW:SABLES                          |                                   
+|IRT:ESSAYS                         |                                   
+|CNT:SABLES                         |                                   
+O----------------------------------->                                   
+|                                   |                                   
+|                                   |2022-08-17 17:16:28:902            
+|                                   |QUERY-IF                           
+|                                   |CID:F40F4762                       
+|                                   |RW:INGENUOUSNESS                   
+|                                   |IRT:OUSTING                        
+|                                   |CNT:INGENUOUSNESS                  
+<-----------------------------------O                                   
+|                                   |                                   
+|                                   |2022-08-17 17:16:28:909            
+|                                   |QUERY-IF                           
+|                                   |CID:65C51577                       
+|                                   |RW:LESCAUT                         
+|                                   |IRT:SABLES                         
+|                                   |CNT:LESCAUT                        
+<-----------------------------------O                                   
+|                                   |                                   
+|2022-08-17 17:16:29:014            |                                   
+|QUERY-IF                           |                                   
+|CID:F40F4762                       |                                   
+|RW:ESSAY                           |                                   
+|IRT:INGENUOUSNESS                  |                                   
+|CNT:ESSAY                          |                                   
+O----------------------------------->                                   
+|                                   |                                   
+|2022-08-17 17:16:29:144            |                                   
+|QUERY-IF                           |                                   
+|CID:65C51577                       |                                   
+|RW:AUTHORITIES                     |                                   
+|IRT:LESCAUT                        |                                   
+|CNT:AUTHORITIES                    |                                   
+O----------------------------------->                                   
+|                                   |                                   
+

@@ -1,0 +1,38 @@
+{
+    "options": {
+        "Players": {
+            "Pmario": "file:/home/lcv/Dropbox/Teaching/DBA/es.ugr.larva.core/build/classes/resources//images/mario.png",
+            "mario": false,
+            "Pluigi": "file:/home/lcv/Dropbox/Teaching/DBA/es.ugr.larva.core/build/classes/resources//images/luigi.png",
+            "luigi": false,
+            "Pyoshi": "file:/home/lcv/Dropbox/Teaching/DBA/es.ugr.larva.core/build/classes/resources//images/yoshi.png",
+            "yoshi": false,
+            "Pwario": "file:/home/lcv/Dropbox/Teaching/DBA/es.ugr.larva.core/build/classes/resources//images/wario.png",
+            "wario": false,
+            "Ppeach": "file:/home/lcv/Dropbox/Teaching/DBA/es.ugr.larva.core/build/classes/resources//images/peach.png",
+            "peach": false
+        }
+    },
+    "properties": {
+        "Pmario": {
+            "type": "icon",
+            "height": 100
+        },
+        "Pluigi": {
+            "type": "icon",
+            "height": 100
+        },
+        "Pyoshi": {
+            "type": "icon",
+            "height": 100
+        },
+        "Pwario": {
+            "type": "icon",
+            "height": 100
+        },
+        "Ppeach": {
+            "type": "icon",
+            "height": 100
+        }
+    }
+}
